@@ -44,3 +44,7 @@ a#avatar {
 .container.d-flex {
     padding-top: 3rem !important;
 }
+
+.content {
+    text-align: justify;
+}
