@@ -29,7 +29,6 @@ function highlightCitationYears() {
       /\(([^)]*)\)/g,
       (match, content) => {
 
-        // Skip ordinary parenthetical remarks
         const looksLikeCitation =
           /[A-ZÀ-ÿ][^)]*\b\d{4}\b/.test(content) ||
           /^\d{4},/.test(content.trim());
@@ -40,18 +39,11 @@ function highlightCitationYears() {
 
         let newContent = content;
 
-        // Authors followed by a year:
-        // Miéville 2009
-        // Oxford English Dictionary 2026
-        // Alder 2020
         newContent = newContent.replace(
           /([A-ZÀ-ÿ][^,;)]*?)\s(\d{4})(?=[,;)]|$)/g,
           '$1 <span class="cite-year">$2</span>'
         );
 
-        // Bare years:
-        // (2017, 42)
-        // (2016, 12)
         newContent = newContent.replace(
           /^(\d{4})(?=,)/,
           '<span class="cite-year">$1</span>'
@@ -64,4 +56,10 @@ function highlightCitationYears() {
     if (replaced === text) continue;
 
     const span = document.createElement('span');
-    span.innerHTML = replaced
+    span.innerHTML = replaced;
+
+    parent.replaceChild(span, node);
+  }
+}
+
+highlightCitationYears();
