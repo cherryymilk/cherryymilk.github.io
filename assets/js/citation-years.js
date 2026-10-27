@@ -540,6 +540,14 @@ document
           return;
         }
 
+        console.log(
+          key,
+          bibliography.entries[key].text,
+          bibliographyPreview(
+            bibliography.entries[key].text
+          )
+        );
+
         tooltip.textContent =
           bibliographyPreview(
             bibliography.entries[key]
