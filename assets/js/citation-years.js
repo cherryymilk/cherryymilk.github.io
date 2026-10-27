@@ -67,45 +67,31 @@ function bibliographyPreview(entry) {
       continue;
     }
 
-    if (
-      char === "”"
-    ) {
+if (
+  char === "”"
+) {
 
-      const remainder =
-        title
-          .slice(i + 1)
-          .trimStart();
+  const remainder =
+    title
+      .slice(i + 1)
+      .trimStart();
 
-      if (
-        remainder.startsWith(":")
-      ) {
+  if (
+    remainder.startsWith(":")
+  ) {
 
-        inQuote = false;
-        continue;
-      }
+    inQuote = false;
+    continue;
+  }
 
-      /*
-        only end here if quote is
-        followed by a sentence boundary
-      */
+  result =
+    result.replace(
+      /\.”$/,
+      "”"
+    );
 
-      if (
-        remainder.startsWith(".") ||
-        /^\.?\s*In\b/.test(remainder)
-      ) {
-
-        result =
-          result.replace(
-            /\.”$/,
-            "”"
-          );
-
-        return result.trim();
-      }
-
-      inQuote = false;
-      continue;
-    }
+  return result.trim();
+}
 
     /*
       only allow title to end
