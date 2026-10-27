@@ -17,6 +17,17 @@ function bibliographyPreview(text) {
     .replace(/\s+/g, " ")
     .trim();
 
+  /* article/chapter title */
+
+  const quoted =
+    text.match(/["“]([^"”]+)["”]/);
+
+  if (quoted) {
+    return `“${quoted[1]}”`;
+  }
+
+  /* fallback: book title */
+
   const yearMatch =
     text.match(/\b(1\d{3}|20\d{2})\.\s*/);
 
@@ -24,32 +35,17 @@ function bibliographyPreview(text) {
     return text;
   }
 
-  const remainder =
+  const afterYear =
     text.slice(
       yearMatch.index +
       yearMatch[0].length
     );
 
-  /* Article title */
+  const title =
+    afterYear.match(/^([^.]*)\./);
 
-  const quoted =
-    remainder.match(
-      /^[“"](.*?)[”"]/
-    );
-
-  if (quoted) {
-    return `“${quoted[1]}”`;
-  }
-
-  /* Book title */
-
-  const book =
-    remainder.match(
-      /^([^.]*)\./
-    );
-
-  if (book) {
-    return book[1].trim();
+  if (title) {
+    return title[1].trim();
   }
 
   return text;
