@@ -8,6 +8,50 @@ function slugify(text) {
 }
 
 /* =========================================
+   TOOLTIP PREVIEW
+========================================= */
+
+function bibliographyPreview(text) {
+
+  text = text
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const yearMatch =
+    text.match(/\b(1\d{3}|20\d{2})\b/);
+
+  if (!yearMatch) {
+    return text;
+  }
+
+  const afterYear =
+    text.slice(
+      yearMatch.index +
+      yearMatch[0].length
+    ).trim();
+
+  const titleMatch =
+    afterYear.match(
+      /^[^.!?]+[.!?]/
+    );
+
+  if (titleMatch) {
+
+    return (
+      text.slice(
+        0,
+        yearMatch.index +
+        yearMatch[0].length
+      ) +
+      " " +
+      titleMatch[0]
+    );
+  }
+
+  return text;
+}
+
+/* =========================================
    BUILD BIBLIOGRAPHY DATABASE
 ========================================= */
 
@@ -491,25 +535,16 @@ document
           return;
         }
 
-        const preview =
-          bibliography.entries[key]
-            .text
-            .replace(/\s+/g, " ")
-            .trim();
-
         tooltip.textContent =
-          preview.length > 120
-            ? preview.slice(0, 120) + "…"
-            : preview;
+          bibliographyPreview(
+            bibliography.entries[key].text
+          );
 
         tooltip.style.display =
           "block";
 
         const rect =
           link.getBoundingClientRect();
-
-        tooltip.style.display =
-          "block";
 
         tooltip.style.left =
           (
