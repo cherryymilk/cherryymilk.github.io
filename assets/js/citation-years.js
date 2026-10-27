@@ -470,9 +470,7 @@ processCitations(
 );
 
 const tooltip =
-  document.createElement(
-    "div"
-  );
+  document.createElement("div");
 
 tooltip.className =
   "citation-tooltip";
@@ -496,21 +494,27 @@ document
             .replace(/\s+/g, " ")
             .trim();
 
-
         tooltip.style.display =
           "block";
-      }
-    );
 
-    link.addEventListener(
-      "mousemove",
-      e => {
+        const rect =
+          link.getBoundingClientRect();
 
         tooltip.style.left =
-          e.clientX + 15 + "px";
+          (
+            rect.left +
+            window.scrollX
+          ) +
+          "px";
 
         tooltip.style.top =
-          e.clientY + 15 + "px";
+          (
+            rect.top +
+            window.scrollY -
+            tooltip.offsetHeight -
+            8
+          ) +
+          "px";
       }
     );
 
