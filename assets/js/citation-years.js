@@ -30,26 +30,31 @@ function bibliographyPreview(text) {
       yearMatch[0].length
     ).trim();
 
-  const titleMatch =
+  /* Article/chapter titles in quotes */
+
+  const quoted =
     afterYear.match(
-      /^[^.!?]+[.!?]/
+      /["“](.*?)["”]/
     );
 
-  if (titleMatch) {
+  if (quoted) {
+    return quoted[1];
+  }
 
-    return (
-      text.slice(
-        0,
-        yearMatch.index +
-        yearMatch[0].length
-      ) +
-      " " +
-      titleMatch[0]
+  /* Book titles */
+
+  const sentence =
+    afterYear.match(
+      /^([^.]*)\./
     );
+
+  if (sentence) {
+    return sentence[1].trim();
   }
 
   return text;
 }
+
 
 /* =========================================
    BUILD BIBLIOGRAPHY DATABASE
