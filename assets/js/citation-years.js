@@ -272,12 +272,28 @@ function inferAuthor(
   bibliography
 ) {
 
-  if (
-    /\belsewhere\b/i.test(textBefore) &&
-    year === "2026"
-  ) {
-    return "ballegeer-2026";
+if (
+  /\belsewhere\b/i.test(textBefore)
+) {
+
+  const mine =
+    bibliography.authors[
+      "ballegeer"
+    ];
+
+  if (mine) {
+
+    const match =
+      mine.find(
+        entry =>
+          entry.year === year
+      );
+
+    if (match) {
+      return match.target;
+    }
   }
+}
 
   const lowered =
     slugify(textBefore);
@@ -616,8 +632,15 @@ document
         tooltip.style.display =
           "block";
 
+        const rects =
+          link.getClientRects();
+
         const rect =
-          link.getBoundingClientRect();
+          rects.length
+            ? rects[
+                rects.length - 1
+              ]
+            : link.getBoundingClientRect();
 
         tooltip.style.left =
           (
