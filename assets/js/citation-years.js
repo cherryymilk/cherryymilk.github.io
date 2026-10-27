@@ -491,9 +491,15 @@ document
           return;
         }
 
-        tooltip.innerHTML =
+        const preview =
           bibliography.entries[key]
-            .html;
+            .text
+            .replace(/\s+/g, " ")
+            .trim()
+            .slice(0, 140)
+            + "…";
+
+        tooltip.textContent = preview;
 
         tooltip.style.display =
           "block";
