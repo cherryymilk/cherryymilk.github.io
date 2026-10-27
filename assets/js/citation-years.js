@@ -495,11 +495,12 @@ document
           bibliography.entries[key]
             .text
             .replace(/\s+/g, " ")
-            .trim()
-            .slice(0, 140)
-            + "…";
+            .trim();
 
-        tooltip.textContent = preview;
+        tooltip.textContent =
+          preview.length > 120
+            ? preview.slice(0, 120) + "…"
+            : preview;
 
         tooltip.style.display =
           "block";
@@ -507,18 +508,21 @@ document
         const rect =
           link.getBoundingClientRect();
 
+        tooltip.style.display =
+          "block";
+
         tooltip.style.left =
           (
             rect.left +
-            (rect.width / 2) -
-            (tooltip.offsetWidth / 2)
+            rect.width / 2 -
+            tooltip.offsetWidth / 2
           ) + "px";
 
         tooltip.style.top =
           (
             rect.top -
             tooltip.offsetHeight -
-            8
+            12
           ) + "px";
       }
     );
