@@ -11,11 +11,28 @@ function slugify(text) {
    TOOLTIP PREVIEW
 ========================================= */
 
-function bibliographyPreview(text) {
+function bibliographyPreview(entry) {
 
-  text = text
-    .replace(/\s+/g, " ")
-    .trim();
+  const temp =
+    document.createElement("div");
+
+  temp.innerHTML =
+    entry.html;
+
+  const italic =
+    temp.querySelector("em, i");
+
+  if (italic) {
+
+    return italic.textContent
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  const text =
+    entry.text
+      .replace(/\s+/g, " ")
+      .trim();
 
   const yearMatch =
     text.match(/\b(1\d{3}|20\d{2})\b/);
@@ -24,35 +41,13 @@ function bibliographyPreview(text) {
     return text;
   }
 
-  const afterYear =
-    text.slice(
+  return text
+    .slice(
       yearMatch.index +
       yearMatch[0].length
-    ).trim();
-
-  /* Article/chapter titles in quotes */
-
-  const quoted =
-    afterYear.match(
-      /["“](.*?)["”]/
-    );
-
-  if (quoted) {
-    return quoted[1];
-  }
-
-  /* Book titles */
-
-  const sentence =
-    afterYear.match(
-      /^([^.]*)\./
-    );
-
-  if (sentence) {
-    return sentence[1].trim();
-  }
-
-  return text;
+    )
+    .split(".")[0]
+    .trim();
 }
 
 
@@ -365,51 +360,9 @@ function processCitations(
                   ""
                 );
 
-              const authorMatch =
-                part.match(
-                  /^(.+?)\s+(\d{4})(.*)$/
-                );
-
-              if (
-                authorMatch
-              ) {
-
-                const author =
-                  authorMatch[1]
-                    .trim();
-
-                const year =
-                  authorMatch[2];
-
-                const rest =
-                  authorMatch[3];
-
-                const key =
-                  slugify(
-                    author
-                  ) +
-                  "-" +
-                  year;
-
-                if (
-                  bibliography
-                    .entries[key]
-                ) {
-
-                  changed =
-                    true;
-
-                  return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
-                }
-
-                return (
-                  prefix +
-                  author +
-                  " " +
-                  `<span class="cite-year">${year}</span>` +
-                  rest
-                );
-              }
+              /* ------------------
+                BARE YEAR FIRST
+              ------------------- */
 
               const bareMatch =
                 part.match(
@@ -417,55 +370,102 @@ function processCitations(
                 );
 
               if (
-                !bareMatch
+                bareMatch
+              ) {
+
+                const year =
+                  bareMatch[1];
+
+                const rest =
+                  bareMatch[2];
+
+                const citationPos =
+                  blockText.indexOf(
+                    fullMatch
+                  );
+
+                const precedingText =
+                  citationPos >= 0
+                    ? blockText.slice(
+                        0,
+                        citationPos
+                      )
+                    : blockText;
+
+                const inferred =
+                  inferAuthor(
+                    precedingText,
+                    year,
+                    bibliography
+                  );
+
+                if (
+                  inferred &&
+                  bibliography.entries[
+                    inferred
+                  ]
+                ) {
+
+                  changed =
+                    true;
+
+                  return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
+                }
+
+                return `<span class="cite-year">${year}</span>${rest}`;
+              }
+
+              /* ------------------
+                AUTHOR + YEAR
+              ------------------- */
+
+              const authorMatch =
+                part.match(
+                  /^(.+?)\s+(\d{4})(.*)$/
+                );
+
+              if (
+                !authorMatch
               ) {
                 return part;
               }
 
+              const author =
+                authorMatch[1]
+                  .trim();
+
               const year =
-                bareMatch[1];
+                authorMatch[2];
 
               const rest =
-                bareMatch[2];
+                authorMatch[3];
 
-              const citationPos =
-                blockText.indexOf(
-                  fullMatch
-                );
-
-              const precedingText =
-                citationPos >= 0
-                  ? blockText.slice(
-                      0,
-                      citationPos
-                    )
-                  : blockText;
-
-              const inferred =
-                inferAuthor(
-                  precedingText,
-                  year,
-                  bibliography
-                );
+              const key =
+                slugify(
+                  author
+                ) +
+                "-" +
+                year;
 
               if (
-                inferred &&
                 bibliography
-                  .entries[
-                    inferred
-                  ]
+                  .entries[key]
               ) {
 
                 changed =
                   true;
 
-                return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
+                return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
               }
 
               return (
+                prefix +
+                author +
+                " " +
                 `<span class="cite-year">${year}</span>` +
                 rest
               );
+
             });
 
           return (
@@ -542,7 +542,7 @@ document
 
         tooltip.textContent =
           bibliographyPreview(
-            bibliography.entries[key].text
+            bibliography.entries[key]
           );
 
         tooltip.style.display =
