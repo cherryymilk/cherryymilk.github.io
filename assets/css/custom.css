@@ -1,5 +1,22 @@
 .cite-year {
-  color: hotpink;
+color: hotpink;
+}
+ 
+.citation-link {
+color: inherit;
+text-decoration: none;
+}
+ 
+.citation-link:hover {
+text-decoration: underline;
+}
+ 
+html {
+scroll-behavior: smooth;
+}
+ 
+[id^="ref-"] {
+scroll-margin-top: 100px;
 }
 
 header.profile-wrapper {
