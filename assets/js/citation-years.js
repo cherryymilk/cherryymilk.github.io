@@ -76,15 +76,31 @@ function bibliographyPreview(entry) {
           .slice(i + 1)
           .trimStart();
 
-      /*
-       quotation followed by
-       subtitle
-      */
-
       if (
         remainder.startsWith(":")
       ) {
+
+        inQuote = false;
         continue;
+      }
+
+      /*
+        only end here if quote is
+        followed by a sentence boundary
+      */
+
+      if (
+        remainder.startsWith(".") ||
+        /^\.?\s*In\b/.test(remainder)
+      ) {
+
+        result =
+          result.replace(
+            /\.”$/,
+            "”"
+          );
+
+        return result.trim();
       }
 
       inQuote = false;
