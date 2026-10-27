@@ -19,6 +19,11 @@ scroll-behavior: smooth;
 scroll-margin-top: 100px;
 }
 
+[id^="ref-"]:target {
+background: rgba(255,105,180,.15);
+transition: background 0.4s;
+}
+
 header.profile-wrapper {
     padding-left: 2.5rem;
     padding-right: 2.5rem !important;
