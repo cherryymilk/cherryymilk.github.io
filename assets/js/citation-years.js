@@ -504,18 +504,16 @@ document
         tooltip.style.left =
           (
             rect.left +
-            window.scrollX
-          ) +
-          "px";
+            (rect.width / 2) -
+            (tooltip.offsetWidth / 2)
+          ) + "px";
 
         tooltip.style.top =
           (
-            rect.top +
-            window.scrollY -
+            rect.top -
             tooltip.offsetHeight -
             8
-          ) +
-          "px";
+          ) + "px";
       }
     );
 
