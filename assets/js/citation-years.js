@@ -106,6 +106,7 @@ function buildBibliography() {
       primaryKey
     ] = {
       node,
+      html: node.innerHTML,
       text: node.textContent.trim()
     };
 
@@ -349,12 +350,7 @@ function processCitations(
                   changed =
                     true;
 
-                  const tooltip =
-                    bibliography.entries[key]
-                      .text
-                      .replace(/"/g, "&quot;");
-
-                  return `${prefix}<a class="citation-link" data-cite-tooltip="${tooltip}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
+                  return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
                 }
 
                 return (
@@ -414,12 +410,7 @@ function processCitations(
                 changed =
                   true;
 
-                const tooltip =
-                  bibliography.entries[inferred]
-                    .text
-                    .replace(/"/g, "&quot;");
-
-                return `<a class="citation-link" data-cite-tooltip="${tooltip}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
+                return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
               }
 
               return (
@@ -470,7 +461,9 @@ processCitations(
 );
 
 const tooltip =
-  document.createElement("div");
+  document.createElement(
+    "div"
+  );
 
 tooltip.className =
   "citation-tooltip";
@@ -489,10 +482,18 @@ document
       "mouseenter",
       () => {
 
-        tooltip.textContent =
-          link.dataset.citeTooltip
-            .replace(/\s+/g, " ")
-            .trim();
+        const key =
+          link.dataset.citeKey;
+
+        if (
+          !bibliography.entries[key]
+        ) {
+          return;
+        }
+
+        tooltip.innerHTML =
+          bibliography.entries[key]
+            .html;
 
         tooltip.style.display =
           "block";
@@ -521,7 +522,6 @@ document
     link.addEventListener(
       "mouseleave",
       () => {
-
         tooltip.style.display =
           "none";
       }

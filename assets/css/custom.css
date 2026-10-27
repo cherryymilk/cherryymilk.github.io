@@ -74,3 +74,13 @@ a#avatar {
 
   pointer-events: none;
 }
+
+.citation-tooltip em,
+.citation-tooltip i {
+  font-style: italic;
+}
+
+.citation-tooltip a {
+  color: inherit;
+  text-decoration: underline;
+}
