@@ -1,3 +1,20 @@
 .cite-year {
   color: hotpink;
 }
+
+header.profile-wrapper {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem !important;
+}
+
+a#avatar {
+    width: 100% !important;
+    height: unset !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+#sidebar #avatar img {
+    width: 100% !important;
+    height: 100% !important;
+}
