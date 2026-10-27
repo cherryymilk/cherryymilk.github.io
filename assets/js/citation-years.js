@@ -7,9 +7,50 @@ function slugify(text) {
     .replace(/^-|-$/g, "");
 }
 
-/* ------------------------------
-   Build bibliography index
--------------------------------- */
+/* ------------------------------------
+   Infer missing authors
+------------------------------------ */
+
+function findNearestAuthor(textBefore, year, index) {
+
+  const keys = Object.keys(index);
+
+  let best = null;
+  let bestPosition = -1;
+
+  for (const key of keys) {
+
+    const match = key.match(/^([a-z0-9-]+)-(\d{4})$/);
+
+    if (!match) continue;
+
+    const author = match[1];
+    const keyYear = match[2];
+
+    if (keyYear !== year) continue;
+
+    const regex = new RegExp(
+      author.replace(/-/g, "\\s+"),
+      "ig"
+    );
+
+    let m;
+
+    while ((m = regex.exec(slugify(textBefore))) !== null) {
+
+      if (m.index > bestPosition) {
+        bestPosition = m.index;
+        best = key;
+      }
+    }
+  }
+
+  return best;
+}
+
+/* ------------------------------------
+   Bibliography indexing
+------------------------------------ */
 
 function buildBibIndex() {
 
@@ -24,7 +65,7 @@ function buildBibIndex() {
   );
 
   if (!worksCited) {
-    console.log("No works cited section found.");
+    console.log("No Works Cited section found.");
     return index;
   }
 
@@ -39,47 +80,42 @@ function buildBibIndex() {
     const text = node.textContent.trim();
 
     const match = text.match(
-      /^([^,\.]+).*?\b(\d{4})\b/
+      /^([^,]+).*?\b(\d{4})\b/
     );
 
     if (match) {
 
-      const surname = match[1].trim();
+      const firstSurname = match[1].trim();
       const year = match[2];
 
-      const key =
-        slugify(surname) +
+      const primaryKey =
+        slugify(firstSurname) +
         "-" +
         year;
 
-      node.id = "ref-" + key;
+      node.id = "ref-" + primaryKey;
+      index[primaryKey] = node;
 
-      index[key] = node;
+      /* Two-author aliases */
 
-      /* Handle two-author citations */
-
-      const andMatch = text.match(
-        /^([^,]+),.*?\band\b\s+([^,.]+).*?\b(\d{4})\b/i
+      const twoAuthorMatch = text.match(
+        /^([^,]+),.*?\band\s+([A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+).*?\b(\d{4})\b/i
       );
 
-      if (andMatch) {
+      if (twoAuthorMatch) {
 
         const first =
-          slugify(andMatch[1]);
+          slugify(twoAuthorMatch[1]);
 
         const second =
-          slugify(andMatch[2]);
+          slugify(twoAuthorMatch[2]);
 
-        const year =
-          andMatch[3];
+        const aliasYear =
+          twoAuthorMatch[3];
 
-        index[
-          `${first}-and-${second}-${year}`
-        ] = node;
-
-        index[
-          `${second}-${year}`
-        ] = node;
+        index[`${first}-${aliasYear}`] = node;
+        index[`${second}-${aliasYear}`] = node;
+        index[`${first}-and-${second}-${aliasYear}`] = node;
       }
     }
 
@@ -89,9 +125,9 @@ function buildBibIndex() {
   return index;
 }
 
-/* ------------------------------
-   Link citations
--------------------------------- */
+/* ------------------------------------
+   Citation processing
+------------------------------------ */
 
 function processCitations(index) {
 
@@ -135,31 +171,47 @@ function processCitations(index) {
         const parts =
           content.split(/\s*;\s*/);
 
-        const linked = parts.map(part => {
+        const linkedParts = parts.map(part => {
 
-          const match = part.match(
+          part = part.replace(
+            /^(see also|see|cf\.|compare|quoted in)\s+/i,
+            ""
+          );
+
+          const authorMatch = part.match(
             /^(.+?)\s+(\d{4})(.*)$/
           );
 
-          if (!match) {
-            return part;
-          }
+          /* --------------------
+             Author-Year citation
+          -------------------- */
 
-          const author =
-            match[1].trim();
+          if (authorMatch) {
 
-          const year =
-            match[2];
+            const author =
+              authorMatch[1].trim();
 
-          const rest =
-            match[3];
+            const year =
+              authorMatch[2];
 
-          const key =
-            slugify(author) +
-            "-" +
-            year;
+            const rest =
+              authorMatch[3];
 
-          if (!index[key]) {
+            const key =
+              slugify(author) +
+              "-" +
+              year;
+
+            if (index[key]) {
+
+              changed = true;
+
+              return `
+<a class="citation-link"
+   href="#${index[key].id}">
+${author} <span class="cite-year">${year}</span>${rest}
+</a>`;
+            }
 
             return (
               author +
@@ -169,17 +221,57 @@ function processCitations(index) {
             );
           }
 
+          /* --------------------
+             Bare year citation
+          -------------------- */
+
+          const bareMatch = part.match(
+            /^(\d{4})(.*)$/
+          );
+
+          if (!bareMatch) {
+            return part;
+          }
+
+          const year =
+            bareMatch[1];
+
+          const rest =
+            bareMatch[2];
+
+          const context =
+            text.slice(
+              Math.max(0, text.indexOf(fullMatch) - 300),
+              text.indexOf(fullMatch)
+            );
+
+          const inferred =
+            findNearestAuthor(
+              context,
+              year,
+              index
+            );
+
+          if (!inferred) {
+
+            return (
+              `<span class="cite-year">${year}</span>` +
+              rest
+            );
+          }
+
           changed = true;
 
           return `
 <a class="citation-link"
-   href="#${index[key].id}">
-${author}
- <span class="cite-year">${year}</span>${rest}
+   href="#${index[inferred].id}">
+<span class="cite-year">${year}</span>${rest}
 </a>`;
         });
 
-        return "(" + linked.join("; ") + ")";
+        return "(" +
+          linkedParts.join("; ") +
+          ")";
       }
     );
 
@@ -194,9 +286,9 @@ ${author}
   }
 }
 
-/* ------------------------------
+/* ------------------------------------
    Run
--------------------------------- */
+------------------------------------ */
 
 const bibliography =
   buildBibIndex();
