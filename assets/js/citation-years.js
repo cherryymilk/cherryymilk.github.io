@@ -14,7 +14,7 @@ function slugify(text) {
 function bibliographyPreview(entry) {
 
   const text =
-    entry.text
+    entry.html
       .replace(/\s+/g, " ")
       .trim();
 
@@ -27,83 +27,94 @@ function bibliographyPreview(entry) {
     return text;
   }
 
-  const afterYear =
+  let title =
     text.slice(
       yearMatch.index +
       yearMatch[0].length
     ).trim();
 
-  /*
-    TITLE IN QUOTES
-  */
+  let result = "";
 
-  if (
-    afterYear.startsWith("“")
-  ) {
+  let parenDepth = 0;
+  let inQuote = false;
 
-    let quoteDepth = 0;
+  for (let i = 0; i < title.length; i++) {
 
-    for (
-      let i = 0;
-      i < afterYear.length;
-      i++
+    const char =
+      title[i];
+
+    result += char;
+
+    if (char === "(") {
+      parenDepth++;
+      continue;
+    }
+
+    if (char === ")") {
+      parenDepth =
+        Math.max(
+          0,
+          parenDepth - 1
+        );
+      continue;
+    }
+
+    if (
+      char === "“" ||
+      char === "\""
+    ) {
+      inQuote = true;
+      continue;
+    }
+
+    if (
+      char === "”"
     ) {
 
-      if (
-        afterYear[i] === "“"
-      ) {
-        quoteDepth++;
-      }
+      const remainder =
+        title
+          .slice(i + 1)
+          .trimStart();
+
+      /*
+       quotation followed by
+       subtitle
+      */
 
       if (
-        afterYear[i] === "”"
+        remainder.startsWith(":")
       ) {
-
-        quoteDepth--;
-
-        if (
-          quoteDepth === 0
-        ) {
-
-          let title =
-            afterYear.slice(
-              0,
-              i + 1
-            );
-
-          title =
-            title.replace(
-              /\.”$/,
-              "”"
-            );
-
-          return title;
-        }
+        continue;
       }
+
+      inQuote = false;
+      continue;
+    }
+
+    /*
+      only allow title to end
+      at a period that is not:
+      - inside parentheses
+      - inside a quotation
+    */
+
+    if (
+      char === "." &&
+      parenDepth === 0 &&
+      !inQuote
+    ) {
+
+      result =
+        result.replace(
+          /\.$/,
+          ""
+        );
+
+      break;
     }
   }
 
-  /*
-    BOOK TITLE
-    = first sentence after year
-  */
-
-  const firstSentence =
-    afterYear.match(
-      /^(.+?)\./
-    );
-
-  if (
-    firstSentence
-  ) {
-
-    return `<em>${
-      firstSentence[1]
-        .trim()
-    }</em>`;
-  }
-
-  return afterYear;
+  return result.trim();
 }
 
 /* =========================================
