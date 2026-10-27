@@ -11,41 +11,99 @@ function slugify(text) {
    TOOLTIP PREVIEW
 ========================================= */
 
-function bibliographyPreview(text) {
+function bibliographyPreview(entry) {
 
-  text = text
+  const temp =
+    document.createElement("div");
+
+  temp.innerHTML =
+    entry.html;
+
+  /* ---------------------------------
+     CASE 1
+     Italicized title exists
+     (books etc.)
+  --------------------------------- */
+
+const text =
+  temp.textContent
     .replace(/\s+/g, " ")
     .trim();
 
-  /* article/chapter title */
+/* Prefer article titles */
+
+const quoted =
+  text.match(
+    /“([^”]+)”/
+  );
+
+if (quoted) {
+  return `“${quoted[1]}”`;
+}
+
+/* Then look for book titles */
+
+const italic =
+  temp.querySelector("em, i");
+
+if (italic) {
+
+  const title =
+    italic.textContent
+      .replace(/\s+/g, " ")
+      .trim();
+
+  if (title) {
+    return title;
+  }
+}
+
+  /* ---------------------------------
+     CASE 2
+     Quoted article/chapter title
+  --------------------------------- */
+
+  const text =
+    temp.textContent
+      .replace(/\s+/g, " ")
+      .trim();
 
   const quoted =
-    text.match(/["“]([^"”]+)["”]/);
+    text.match(
+      /“([^”]+)”/
+    );
 
   if (quoted) {
     return `“${quoted[1]}”`;
   }
 
-  /* fallback: book title */
+  /* ---------------------------------
+     CASE 3
+     Fallback:
+     first sentence after year
+  --------------------------------- */
 
   const yearMatch =
-    text.match(/\b(1\d{3}|20\d{2})\.\s*/);
-
-  if (!yearMatch) {
-    return text;
-  }
-
-  const afterYear =
-    text.slice(
-      yearMatch.index +
-      yearMatch[0].length
+    text.match(
+      /\b(1\d{3}|20\d{2})\.\s*/
     );
 
-  const title =
-    afterYear.match(/^([^.]*)\./);
+  if (yearMatch) {
 
-  if (title) {
-    return title[1].trim();
+    const afterYear =
+      text.slice(
+        yearMatch.index +
+        yearMatch[0].length
+      );
+
+    const firstSentence =
+      afterYear.match(
+        /^([^.]*)\./
+      );
+
+    if (firstSentence) {
+      return firstSentence[1].trim();
+    }
   }
 
   return text;
