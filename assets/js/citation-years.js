@@ -7,9 +7,9 @@ function slugify(text) {
     .replace(/^-|-$/g, "");
 }
 
-/* ========================================
+/* =========================================
    BUILD BIBLIOGRAPHY DATABASE
-======================================== */
+========================================= */
 
 function buildBibliography() {
 
@@ -23,13 +23,10 @@ function buildBibliography() {
   ];
 
   const worksCited = headings.find(
-    h =>
-      h.textContent.trim().toLowerCase() ===
-      "works cited"
+    h => h.textContent.trim().toLowerCase() === "works cited"
   );
 
   if (!worksCited) {
-    console.log("No Works Cited section found.");
     return bibliography;
   }
 
@@ -58,23 +55,30 @@ function buildBibliography() {
 
     const surnames = [];
 
-    const firstMatch =
+    /* first author surname */
+    const firstAuthorMatch =
       authorPart.match(/^([^,]+)/);
 
-    if (firstMatch) {
-      surnames.push(firstMatch[1].trim());
+    if (firstAuthorMatch) {
+      surnames.push(
+        firstAuthorMatch[1].trim()
+      );
     }
 
-    const andMatch =
+    /* second author surname */
+    const secondAuthorMatch =
       authorPart.match(
-        /\band\s+([A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+)/i
+        /\band\s+[A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]*\s+([A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+)\.?$/i
       );
 
-    if (andMatch) {
-      surnames.push(andMatch[1].trim());
+    if (secondAuthorMatch) {
+
+      surnames.push(
+        secondAuthorMatch[1].trim()
+      );
     }
 
-    if (surnames.length === 0) {
+    if (!surnames.length) {
       node = node.nextElementSibling;
       continue;
     }
@@ -86,35 +90,38 @@ function buildBibliography() {
 
     node.id = "ref-" + primaryKey;
 
-    bibliography.entries[primaryKey] = node;
+    bibliography.entries[
+      primaryKey
+    ] = node;
 
-    for (const surname of surnames) {
+    /* author lookup table */
 
-      bibliography.authors[
-        slugify(surname)
-      ] = bibliography.authors[
-        slugify(surname)
-      ] || [];
+    surnames.forEach(name => {
 
-      bibliography.authors[
-        slugify(surname)
-      ].push({
+      const key =
+        slugify(name);
+
+      bibliography.authors[key] =
+        bibliography.authors[key] || [];
+
+      bibliography.authors[key].push({
         year,
-        key: primaryKey
+        target: primaryKey
       });
-    }
+    });
+
+    /* multi-author aliases */
 
     if (surnames.length >= 2) {
 
-      const combined =
-        slugify(surnames[0]) +
-        "-and-" +
-        slugify(surnames[1]) +
-        "-" +
-        year;
-
       bibliography.entries[
-        combined
+        slugify(
+          surnames[0] +
+          "-and-" +
+          surnames[1]
+        ) +
+        "-" +
+        year
       ] = node;
     }
 
@@ -124,47 +131,66 @@ function buildBibliography() {
   return bibliography;
 }
 
-/* ========================================
-   AUTHOR INFERENCE
-======================================== */
+/* =========================================
+   INFER AUTHOR FROM PARAGRAPH
+========================================= */
 
-function inferAuthor(textBefore, year, bibliography) {
+function inferAuthor(
+  paragraphText,
+  year,
+  bibliography
+) {
 
   const lowered =
-    slugify(textBefore);
+    slugify(paragraphText);
 
   let best = null;
   let bestPos = -1;
 
-  for (const author of Object.keys(
-    bibliography.authors
-  )) {
+  for (
+    const surname of Object.keys(
+      bibliography.authors
+    )
+  ) {
 
     const pos =
-      lowered.lastIndexOf(author);
+      lowered.lastIndexOf(
+        surname
+      );
 
-    if (pos === -1) continue;
+    if (pos < 0) {
+      continue;
+    }
 
-    const matches =
-      bibliography.authors[author]
-        .filter(a => a.year === year);
+    const match =
+      bibliography.authors[
+        surname
+      ].find(
+        item =>
+          item.year === year
+      );
 
-    if (!matches.length) continue;
+    if (!match) {
+      continue;
+    }
 
     if (pos > bestPos) {
+
       bestPos = pos;
-      best = matches[0].key;
+      best = match.target;
     }
   }
 
   return best;
 }
 
-/* ========================================
+/* =========================================
    PROCESS CITATIONS
-======================================== */
+========================================= */
 
-function processCitations(bibliography) {
+function processCitations(
+  bibliography
+) {
 
   const walker =
     document.createTreeWalker(
@@ -180,7 +206,9 @@ function processCitations(bibliography) {
     );
   }
 
-  for (const node of nodes) {
+  for (
+    const node of nodes
+  ) {
 
     const parent =
       node.parentNode;
@@ -198,16 +226,29 @@ function processCitations(bibliography) {
     const text =
       node.textContent;
 
-    if (!text.includes("(")) {
+    if (
+      !text.includes("(")
+    ) {
       continue;
     }
+
+    const block =
+      parent.closest(
+        "p,li,blockquote,div"
+      );
+
+    const blockText =
+      block?.innerText || "";
 
     let changed = false;
 
     const html =
       text.replace(
         /\(([^)]*)\)/g,
-        (fullMatch, content) => {
+        (
+          fullMatch,
+          content
+        ) => {
 
           const parts =
             content.split(
@@ -217,31 +258,40 @@ function processCitations(bibliography) {
           const processed =
             parts.map(part => {
 
-              part = part.replace(
-                /^(see also|see|cf\.|compare|quoted in)\s+/i,
-                ""
-              );
+              const prefixMatch =
+                part.match(
+                  /^(see also|see|cf\.|compare|quoted in)\s+/i
+                );
 
-              const authorMatch =
+              const prefix =
+                prefixMatch
+                  ? prefixMatch[0]
+                  : "";
+
+              part =
+                part.replace(
+                  /^(see also|see|cf\.|compare|quoted in)\s+/i,
+                  ""
+                );
+
+              /* AUTHOR-YEAR */
+
+              const authorYear =
                 part.match(
                   /^(.+?)\s+(\d{4})(.*)$/
                 );
 
-              /* ------------------
-                 Author + year
-              ------------------- */
-
-              if (authorMatch) {
+              if (authorYear) {
 
                 const author =
-                  authorMatch[1]
+                  authorYear[1]
                     .trim();
 
                 const year =
-                  authorMatch[2];
+                  authorYear[2];
 
                 const rest =
-                  authorMatch[3];
+                  authorYear[3];
 
                 const key =
                   slugify(author) +
@@ -249,22 +299,23 @@ function processCitations(bibliography) {
                   year;
 
                 if (
-                  bibliography.entries[
-                    key
-                  ]
+                  bibliography
+                    .entries[key]
                 ) {
 
-                  changed = true;
+                  changed =
+                    true;
 
                   return `
-<a class="citation-link"
+${prefix}<a class="citation-link"
 href="#${bibliography.entries[key].id}">
 ${author}
-<span class="cite-year">${year}</span>${rest}
+ <span class="cite-year">${year}</span>${rest}
 </a>`;
                 }
 
                 return (
+                  prefix +
                   author +
                   " " +
                   `<span class="cite-year">${year}</span>` +
@@ -272,55 +323,40 @@ ${author}
                 );
               }
 
-              /* ------------------
-                 Bare year
-              ------------------- */
+              /* BARE YEAR */
 
-              const bareMatch =
+              const bare =
                 part.match(
                   /^(\d{4})(.*)$/
                 );
 
-              if (
-                !bareMatch
-              ) {
+              if (!bare) {
                 return part;
               }
 
               const year =
-                bareMatch[1];
+                bare[1];
 
               const rest =
-                bareMatch[2];
-
-              const context =
-                text.slice(
-                  Math.max(
-                    0,
-                    text.indexOf(
-                      fullMatch
-                    ) - 500
-                  ),
-                  text.indexOf(
-                    fullMatch
-                  )
-                );
+                bare[2];
 
               const inferred =
                 inferAuthor(
-                  context,
+                  blockText,
                   year,
                   bibliography
                 );
 
               if (
                 inferred &&
-                bibliography.entries[
-                  inferred
-                ]
+                bibliography
+                  .entries[
+                    inferred
+                  ]
               ) {
 
-                changed = true;
+                changed =
+                  true;
 
                 return `
 <a class="citation-link"
@@ -357,7 +393,8 @@ href="#${bibliography.entries[inferred].id}">
         "span"
       );
 
-    span.innerHTML = html;
+    span.innerHTML =
+      html;
 
     parent.replaceChild(
       span,
@@ -366,9 +403,9 @@ href="#${bibliography.entries[inferred].id}">
   }
 }
 
-/* ========================================
+/* =========================================
    RUN
-======================================== */
+========================================= */
 
 const bibliography =
   buildBibliography();
