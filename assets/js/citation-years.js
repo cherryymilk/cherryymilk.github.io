@@ -55,28 +55,38 @@ function buildBibliography() {
 
     const surnames = [];
 
-    /* first author surname */
-    const firstAuthorMatch =
+    /* First surname */
+
+    const firstMatch =
       authorPart.match(/^([^,]+)/);
 
-    if (firstAuthorMatch) {
+    if (firstMatch) {
       surnames.push(
-        firstAuthorMatch[1].trim()
+        firstMatch[1].trim()
       );
     }
 
-    /* detect second author */
+    /* Second surname */
 
-    if (authorPart.includes(" and ")) {
+    if (
+      /\band\b/i.test(authorPart)
+    ) {
 
       const afterAnd =
-        authorPart.split(/\band\b/i).pop().trim();
+        authorPart
+          .split(/\band\b/i)
+          .pop()
+          .trim();
 
       const words =
-        afterAnd.match(/[A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+/g);
+        afterAnd.match(
+          /[A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+/g
+        );
 
-      if (words && words.length) {
-
+      if (
+        words &&
+        words.length
+      ) {
         surnames.push(
           words[words.length - 1]
         );
@@ -88,52 +98,53 @@ function buildBibliography() {
       continue;
     }
 
-    console.log(
-      "AUTHORS:",
-      surnames,
-      "YEAR:",
-      year
-    );
-
     const primaryKey =
       slugify(surnames[0]) +
       "-" +
       year;
 
-    node.id = "ref-" + primaryKey;
+    node.id =
+      "ref-" +
+      primaryKey;
 
     bibliography.entries[
       primaryKey
     ] = node;
 
-    /* author lookup table */
+    surnames.forEach(
+      surname => {
 
-    surnames.forEach(name => {
+        const key =
+          slugify(surname);
 
-      const key =
-        slugify(name);
+        bibliography.authors[
+          key
+        ] =
+          bibliography.authors[
+            key
+          ] || [];
 
-      bibliography.authors[key] =
-        bibliography.authors[key] || [];
-
-      bibliography.authors[key].push({
-        year,
-        target: primaryKey
-      });
-    });
-
-    /* multi-author aliases */
+        bibliography.authors[
+          key
+        ].push({
+          year,
+          target: primaryKey
+        });
+      }
+    );
 
     if (surnames.length >= 2) {
 
       bibliography.entries[
         slugify(
-          surnames[0] +
-          "-and-" +
-          surnames[1]
+          surnames[0]
         ) +
-        "-" +
-        year
+          "-and-" +
+          slugify(
+            surnames[1]
+          ) +
+          "-" +
+          year
       ] = node;
     }
 
@@ -144,17 +155,26 @@ function buildBibliography() {
 }
 
 /* =========================================
-   INFER AUTHOR FROM PARAGRAPH
+   AUTHOR INFERENCE
 ========================================= */
 
 function inferAuthor(
-  paragraphText,
+  textBefore,
   year,
   bibliography
 ) {
 
+  if (
+    /\belsewhere\b/i.test(
+      textBefore
+    ) &&
+    year === "2026"
+  ) {
+    return "ballegeer-2026";
+  }
+
   const lowered =
-    slugify(paragraphText);
+    slugify(textBefore);
 
   let best = null;
   let bestPos = -1;
@@ -178,8 +198,8 @@ function inferAuthor(
       bibliography.authors[
         surname
       ].find(
-        item =>
-          item.year === year
+        a =>
+          a.year === year
       );
 
     if (!match) {
@@ -212,7 +232,9 @@ function processCitations(
 
   const nodes = [];
 
-  while (walker.nextNode()) {
+  while (
+    walker.nextNode()
+  ) {
     nodes.push(
       walker.currentNode
     );
@@ -252,7 +274,8 @@ function processCitations(
     const blockText =
       block?.innerText || "";
 
-    let changed = false;
+    let changed =
+      false;
 
     const html =
       text.replace(
@@ -261,6 +284,19 @@ function processCitations(
           fullMatch,
           content
         ) => {
+
+          const looksLikeCitation =
+            /[A-ZÀ-ÿ].*\d{4}/.test(content)
+            ||
+            /^\d{4},/.test(
+              content.trim()
+            );
+
+          if (
+            !looksLikeCitation
+          ) {
+            return fullMatch;
+          }
 
           const parts =
             content.split(
@@ -286,27 +322,31 @@ function processCitations(
                   ""
                 );
 
-              /* AUTHOR-YEAR */
+              /* AUTHOR + YEAR */
 
-              const authorYear =
+              const authorMatch =
                 part.match(
                   /^(.+?)\s+(\d{4})(.*)$/
                 );
 
-              if (authorYear) {
+              if (
+                authorMatch
+              ) {
 
                 const author =
-                  authorYear[1]
+                  authorMatch[1]
                     .trim();
 
                 const year =
-                  authorYear[2];
+                  authorMatch[2];
 
                 const rest =
-                  authorYear[3];
+                  authorMatch[3];
 
                 const key =
-                  slugify(author) +
+                  slugify(
+                    author
+                  ) +
                   "-" +
                   year;
 
@@ -319,10 +359,8 @@ function processCitations(
                     true;
 
                   return `
-${prefix}<a class="citation-link"
-href="#${bibliography.entries[key].id}">
-${author}
- <span class="cite-year">${year}</span>${rest}
+${prefix}<a class="citation-link" href="#${bibliography.entries[key].id}">
+${author} <span class="cite-year">${year}</span>${rest}
 </a>`;
                 }
 
@@ -335,26 +373,41 @@ ${author}
                 );
               }
 
-              /* BARE YEAR */
+              /* YEAR ONLY */
 
-              const bare =
+              const bareMatch =
                 part.match(
                   /^(\d{4})(.*)$/
                 );
 
-              if (!bare) {
+              if (
+                !bareMatch
+              ) {
                 return part;
               }
 
               const year =
-                bare[1];
+                bareMatch[1];
 
               const rest =
-                bare[2];
+                bareMatch[2];
+
+              const citationPos =
+                blockText.indexOf(
+                  fullMatch
+                );
+
+              const precedingText =
+                citationPos >= 0
+                  ? blockText.slice(
+                      0,
+                      citationPos
+                    )
+                  : blockText;
 
               const inferred =
                 inferAuthor(
-                  blockText,
+                  precedingText,
                   year,
                   bibliography
                 );
@@ -371,8 +424,7 @@ ${author}
                   true;
 
                 return `
-<a class="citation-link"
-href="#${bibliography.entries[inferred].id}">
+<a class="citation-link" href="#${bibliography.entries[inferred].id}">
 <span class="cite-year">${year}</span>${rest}
 </a>`;
               }
