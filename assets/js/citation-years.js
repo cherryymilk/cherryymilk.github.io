@@ -1,48 +1,53 @@
-console.log("citation script started");
+function highlightCitationYears() {
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT
+  );
 
-const walker = document.createTreeWalker(
-  document.body,
-  NodeFilter.SHOW_TEXT
-);
+  const nodes = [];
 
-const citationRegex = /\(([^)]*)\)/g;
-
-const nodes = [];
-
-while (walker.nextNode()) {
-  nodes.push(walker.currentNode);
-}
-
-for (const node of nodes) {
-
-  if (
-    node.parentNode &&
-    node.parentNode.closest &&
-    node.parentNode.closest('code, pre, script, style')
-  ) {
-    continue;
+  while (walker.nextNode()) {
+    nodes.push(walker.currentNode);
   }
 
-  const text = node.textContent;
+  for (const node of nodes) {
+    const parent = node.parentNode;
 
-  if (!regex.test(text)) continue;
+    if (
+      parent &&
+      parent.closest &&
+      parent.closest('code, pre, script, style')
+    ) {
+      continue;
+    }
 
-  regex.lastIndex = 0;
+    const text = node.textContent;
 
-  const span = document.createElement('span');
+    if (!text.includes('(') || !text.includes(')')) {
+      continue;
+    }
 
-  console.log("found:", text);
+    const replaced = text.replace(
+      /\(([^)]*)\)/g,
+      (match, content) => {
+        return (
+          '(' +
+          content.replace(
+            /\b(\d{4})\b/g,
+            '<span class="cite-year">$1</span>'
+          ) +
+          ')'
+        );
+      }
+    );
 
-	span.innerHTML = text.replace(
-	  citationRegex,
-	  (_, content) =>
-		'(' +
-		content.replace(
-		  /\b\d{4}\b/g,
-		  '<span class="cite-year">$&</span>'
-		) +
-		')'
-	);
-	
-  node.parentNode.replaceChild(span, node);
+    if (replaced === text) continue;
+
+    const span = document.createElement('span');
+    span.innerHTML = replaced;
+
+    parent.replaceChild(span, node);
+  }
 }
+
+highlightCitationYears();
