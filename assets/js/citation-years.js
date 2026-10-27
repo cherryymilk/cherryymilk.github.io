@@ -13,122 +13,97 @@ function slugify(text) {
 
 function bibliographyPreview(entry) {
 
-  const temp =
-    document.createElement("div");
+  const text =
+    entry.text
+      .replace(/\s+/g, " ")
+      .trim();
 
-  temp.innerHTML =
-    entry.html;
-
-  const walker =
-    document.createTreeWalker(
-      temp,
-      NodeFilter.SHOW_ALL
+  const yearMatch =
+    text.match(
+      /\b(1\d{3}|20\d{2})\.\s*/
     );
 
-  let started = false;
-  let buffer = "";
+  if (!yearMatch) {
+    return text;
+  }
 
-  while (walker.nextNode()) {
+  const afterYear =
+    text.slice(
+      yearMatch.index +
+      yearMatch[0].length
+    ).trim();
 
-    const node =
-      walker.currentNode;
+  /*
+    TITLE IN QUOTES
+  */
 
-    /* -----------------------
-       Find year first
-    ------------------------ */
+  if (
+    afterYear.startsWith("“")
+  ) {
 
-    if (
-      !started &&
-      node.nodeType === Node.TEXT_NODE
+    let quoteDepth = 0;
+
+    for (
+      let i = 0;
+      i < afterYear.length;
+      i++
     ) {
 
-      const yearMatch =
-        node.textContent.match(
-          /\b(1\d{3}|20\d{2})\./
-        );
-
-      if (yearMatch) {
-
-        started = true;
-
-        const afterYear =
-          node.textContent.slice(
-            yearMatch.index +
-            yearMatch[0].length
-          );
-
-        buffer += afterYear;
-
-        continue;
+      if (
+        afterYear[i] === "“"
+      ) {
+        quoteDepth++;
       }
-    }
 
-    if (!started) {
-      continue;
-    }
+      if (
+        afterYear[i] === "”"
+      ) {
 
-    /* -----------------------
-       Collect text after year
-    ------------------------ */
+        quoteDepth--;
 
-    if (
-      node.nodeType === Node.TEXT_NODE
-    ) {
+        if (
+          quoteDepth === 0
+        ) {
 
-      buffer +=
-        node.textContent;
-    }
+          let title =
+            afterYear.slice(
+              0,
+              i + 1
+            );
 
-    else if (
-      node.nodeType ===
-      Node.ELEMENT_NODE &&
-      (
-        node.tagName === "EM" ||
-        node.tagName === "I"
-      )
-    ) {
+          title =
+            title.replace(
+              /\.”$/,
+              "”"
+            );
 
-      buffer +=
-        node.textContent;
-    }
-
-    /* -----------------------
-       Stop at first sentence end
-    ------------------------ */
-
-    const cleaned =
-      buffer
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const article =
-      cleaned.match(
-        /^“([^”]+)\.?”/
-      );
-
-    if (article) {
-
-      return `“${article[1]}”`;
-    }
-
-    const sentence =
-      cleaned.match(
-        /^([^.]*)\./
-      );
-
-    if (
-      sentence &&
-      sentence[1].trim()
-    ) {
-
-      return sentence[1]
-        .trim();
+          return title;
+        }
+      }
     }
   }
 
-  return buffer
-    .replace(/\s+/g, " ")
-    .trim();
+  /*
+    BOOK TITLE
+    = first sentence after year
+  */
+
+  const firstSentence =
+    afterYear.match(
+      /^(.+?)\./
+    );
+
+  if (
+    firstSentence
+  ) {
+
+    return `<em>${
+      firstSentence[1]
+        .trim()
+    }</em>`;
+  }
+
+  return afterYear;
 }
 
 /* =========================================
@@ -620,7 +595,7 @@ document
           return;
         }
 
-        tooltip.textContent =
+        tooltip.innerHTML =
           bibliographyPreview(
             bibliography.entries[key]
           );
