@@ -5,7 +5,7 @@ const walker = document.createTreeWalker(
   NodeFilter.SHOW_TEXT
 );
 
-const regex = /\(([^(]*?)\b(\d{4})\b([^)]*?)\)/g;
+const citationRegex = /\(([^)]*)\)/g;
 
 const nodes = [];
 
@@ -33,11 +33,16 @@ for (const node of nodes) {
 
   console.log("found:", text);
 
-  span.innerHTML = text.replace(
-    regex,
-    (_, before, year, after) =>
-      `(${before}<span class="cite-year">${year}</span>${after})`
-  );
-
+	span.innerHTML = text.replace(
+	  citationRegex,
+	  (_, content) =>
+		'(' +
+		content.replace(
+		  /\b\d{4}\b/g,
+		  '<span class="cite-year">$&</span>'
+		) +
+		')'
+	);
+	
   node.parentNode.replaceChild(span, node);
 }
