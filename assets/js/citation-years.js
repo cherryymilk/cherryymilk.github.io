@@ -65,23 +65,35 @@ function buildBibliography() {
       );
     }
 
-    /* second author surname */
-    const secondAuthorMatch =
-      authorPart.match(
-        /\band\s+[A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]*\s+([A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+)\.?$/i
-      );
+    /* detect second author */
 
-    if (secondAuthorMatch) {
+    if (authorPart.includes(" and ")) {
 
-      surnames.push(
-        secondAuthorMatch[1].trim()
-      );
+      const afterAnd =
+        authorPart.split(/\band\b/i).pop().trim();
+
+      const words =
+        afterAnd.match(/[A-ZÀ-ÿ][A-Za-zÀ-ÿ'-]+/g);
+
+      if (words && words.length) {
+
+        surnames.push(
+          words[words.length - 1]
+        );
+      }
     }
 
     if (!surnames.length) {
       node = node.nextElementSibling;
       continue;
     }
+
+    console.log(
+      "AUTHORS:",
+      surnames,
+      "YEAR:",
+      year
+    );
 
     const primaryKey =
       slugify(surnames[0]) +
