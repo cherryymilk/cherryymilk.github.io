@@ -19,94 +19,55 @@ function bibliographyPreview(entry) {
   temp.innerHTML =
     entry.html;
 
-  /* ---------------------------------
-     CASE 1
-     Italicized title exists
-     (books etc.)
-  --------------------------------- */
-
-const text =
-  temp.textContent
-    .replace(/\s+/g, " ")
-    .trim();
-
-/* Prefer article titles */
-
-const quoted =
-  text.match(
-    /“([^”]+)”/
-  );
-
-if (quoted) {
-  return `“${quoted[1]}”`;
-}
-
-/* Then look for book titles */
-
-const italic =
-  temp.querySelector("em, i");
-
-if (italic) {
-
-  const title =
-    italic.textContent
-      .replace(/\s+/g, " ")
-      .trim();
-
-  if (title) {
-    return title;
-  }
-}
-
-  /* ---------------------------------
-     CASE 2
-     Quoted article/chapter title
-  --------------------------------- */
-
   const text =
     temp.textContent
       .replace(/\s+/g, " ")
       .trim();
 
-  const quoted =
-    text.match(
-      /“([^”]+)”/
-    );
+  /* article/chapter titles */
 
-  if (quoted) {
-    return `“${quoted[1]}”`;
+  const quotedTitle =
+    text.match(/“([^”]+)”/);
+
+  if (quotedTitle) {
+    return `“${quotedTitle[1]}”`;
   }
 
-  /* ---------------------------------
-     CASE 3
-     Fallback:
-     first sentence after year
-  --------------------------------- */
+  /* book titles */
+
+  const firstItalic =
+    temp.querySelector("em, i");
+
+  if (firstItalic) {
+
+    const title =
+      firstItalic.textContent
+        .replace(/\s+/g, " ")
+        .trim();
+
+    if (title) {
+      return title;
+    }
+  }
+
+  /* fallback */
 
   const yearMatch =
     text.match(
       /\b(1\d{3}|20\d{2})\.\s*/
     );
 
-  if (yearMatch) {
-
-    const afterYear =
-      text.slice(
-        yearMatch.index +
-        yearMatch[0].length
-      );
-
-    const firstSentence =
-      afterYear.match(
-        /^([^.]*)\./
-      );
-
-    if (firstSentence) {
-      return firstSentence[1].trim();
-    }
+  if (!yearMatch) {
+    return text;
   }
 
-  return text;
+  const afterYear =
+    text.slice(
+      yearMatch.index +
+      yearMatch[0].length
+    );
+
+  return afterYear;
 }
 
 /* =========================================
@@ -602,7 +563,7 @@ document
           key,
           bibliography.entries[key].text,
           bibliographyPreview(
-            bibliography.entries[key].text
+            bibliography.entries[key]
           )
         );
 
