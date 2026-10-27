@@ -104,7 +104,10 @@ function buildBibliography() {
 
     bibliography.entries[
       primaryKey
-    ] = node;
+    ] = {
+      node,
+      text: node.textContent.trim()
+    };
 
     surnames.forEach(
       surname => {
@@ -134,7 +137,10 @@ function buildBibliography() {
           ) +
           "-" +
           year
-      ] = node;
+      ] =
+        bibliography.entries[
+          primaryKey
+        ];
     }
 
     node = node.nextElementSibling;
@@ -343,7 +349,12 @@ function processCitations(
                   changed =
                     true;
 
-                  return `${prefix}<a class="citation-link" href="#${bibliography.entries[key].id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
+                  const tooltip =
+                    bibliography.entries[key]
+                      .text
+                      .replace(/"/g, "&quot;");
+
+                  return `${prefix}<a class="citation-link" data-cite-tooltip="${tooltip}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
                 }
 
                 return (
@@ -403,7 +414,12 @@ function processCitations(
                 changed =
                   true;
 
-                return `<a class="citation-link" href="#${bibliography.entries[inferred].id}"><span class="cite-year">${year}</span>${rest}</a>`;
+                const tooltip =
+                  bibliography.entries[inferred]
+                    .text
+                    .replace(/"/g, "&quot;");
+
+                return `<a class="citation-link" data-cite-tooltip="${tooltip}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
               }
 
               return (
@@ -452,3 +468,58 @@ const bibliography =
 processCitations(
   bibliography
 );
+
+const tooltip =
+  document.createElement(
+    "div"
+  );
+
+tooltip.className =
+  "citation-tooltip";
+
+document.body.appendChild(
+  tooltip
+);
+
+document
+  .querySelectorAll(
+    ".citation-link"
+  )
+  .forEach(link => {
+
+    link.addEventListener(
+      "mouseenter",
+      () => {
+
+        tooltip.textContent =
+          link.dataset.citeTooltip
+            .replace(/\s+/g, " ")
+            .trim();
+
+
+        tooltip.style.display =
+          "block";
+      }
+    );
+
+    link.addEventListener(
+      "mousemove",
+      e => {
+
+        tooltip.style.left =
+          e.clientX + 15 + "px";
+
+        tooltip.style.top =
+          e.clientY + 15 + "px";
+      }
+    );
+
+    link.addEventListener(
+      "mouseleave",
+      () => {
+
+        tooltip.style.display =
+          "none";
+      }
+    );
+  });
