@@ -11,45 +11,49 @@ function slugify(text) {
    TOOLTIP PREVIEW
 ========================================= */
 
-function bibliographyPreview(entry) {
+function bibliographyPreview(text) {
 
-  const temp =
-    document.createElement("div");
-
-  temp.innerHTML =
-    entry.html;
-
-  const italic =
-    temp.querySelector("em, i");
-
-  if (italic) {
-
-    return italic.textContent
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  const text =
-    entry.text
-      .replace(/\s+/g, " ")
-      .trim();
+  text = text
+    .replace(/\s+/g, " ")
+    .trim();
 
   const yearMatch =
-    text.match(/\b(1\d{3}|20\d{2})\b/);
+    text.match(/\b(1\d{3}|20\d{2})\.\s*/);
 
   if (!yearMatch) {
     return text;
   }
 
-  return text
-    .slice(
+  const remainder =
+    text.slice(
       yearMatch.index +
       yearMatch[0].length
-    )
-    .split(".")[0]
-    .trim();
-}
+    );
 
+  /* Article title */
+
+  const quoted =
+    remainder.match(
+      /^[“"](.*?)[”"]/
+    );
+
+  if (quoted) {
+    return `“${quoted[1]}”`;
+  }
+
+  /* Book title */
+
+  const book =
+    remainder.match(
+      /^([^.]*)\./
+    );
+
+  if (book) {
+    return book[1].trim();
+  }
+
+  return text;
+}
 
 /* =========================================
    BUILD BIBLIOGRAPHY DATABASE
