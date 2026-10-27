@@ -493,7 +493,7 @@ function processCitations(
                   changed =
                     true;
 
-                  return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span>${rest}</a>`;
+                  return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span></a>${rest}`;
                 }
 
                 return `<span class="cite-year">${year}</span>${rest}`;
@@ -539,7 +539,7 @@ function processCitations(
                 changed =
                   true;
 
-                return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
+                return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span></a>${rest}`;
               }
 
               return (
