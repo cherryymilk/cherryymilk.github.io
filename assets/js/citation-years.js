@@ -55,8 +55,6 @@ function buildBibliography() {
 
     const surnames = [];
 
-    /* First surname */
-
     const firstMatch =
       authorPart.match(/^([^,]+)/);
 
@@ -66,11 +64,7 @@ function buildBibliography() {
       );
     }
 
-    /* Second surname */
-
-    if (
-      /\band\b/i.test(authorPart)
-    ) {
+    if (/\band\b/i.test(authorPart)) {
 
       const afterAnd =
         authorPart
@@ -87,6 +81,7 @@ function buildBibliography() {
         words &&
         words.length
       ) {
+
         surnames.push(
           words[words.length - 1]
         );
@@ -117,16 +112,10 @@ function buildBibliography() {
         const key =
           slugify(surname);
 
-        bibliography.authors[
-          key
-        ] =
-          bibliography.authors[
-            key
-          ] || [];
+        bibliography.authors[key] =
+          bibliography.authors[key] || [];
 
-        bibliography.authors[
-          key
-        ].push({
+        bibliography.authors[key].push({
           year,
           target: primaryKey
         });
@@ -165,9 +154,7 @@ function inferAuthor(
 ) {
 
   if (
-    /\belsewhere\b/i.test(
-      textBefore
-    ) &&
+    /\belsewhere\b/i.test(textBefore) &&
     year === "2026"
   ) {
     return "ballegeer-2026";
@@ -322,8 +309,6 @@ function processCitations(
                   ""
                 );
 
-              /* AUTHOR + YEAR */
-
               const authorMatch =
                 part.match(
                   /^(.+?)\s+(\d{4})(.*)$/
@@ -358,10 +343,7 @@ function processCitations(
                   changed =
                     true;
 
-                  return `
-${prefix}<a class="citation-link" href="#${bibliography.entries[key].id}">
-${author} <span class="cite-year">${year}</span>${rest}
-</a>`;
+                  return `${prefix}<a class="citation-link" href="#${bibliography.entries[key].id}">${author} <span class="cite-year">${year}</span>${rest}</a>`;
                 }
 
                 return (
@@ -372,8 +354,6 @@ ${author} <span class="cite-year">${year}</span>${rest}
                   rest
                 );
               }
-
-              /* YEAR ONLY */
 
               const bareMatch =
                 part.match(
@@ -423,10 +403,7 @@ ${author} <span class="cite-year">${year}</span>${rest}
                 changed =
                   true;
 
-                return `
-<a class="citation-link" href="#${bibliography.entries[inferred].id}">
-<span class="cite-year">${year}</span>${rest}
-</a>`;
+                return `<a class="citation-link" href="#${bibliography.entries[inferred].id}"><span class="cite-year">${year}</span>${rest}</a>`;
               }
 
               return (
@@ -437,9 +414,7 @@ ${author} <span class="cite-year">${year}</span>${rest}
 
           return (
             "(" +
-            processed.join(
-              "; "
-            ) +
+            processed.join("; ") +
             ")"
           );
         }
