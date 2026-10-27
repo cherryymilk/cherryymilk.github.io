@@ -19,55 +19,116 @@ function bibliographyPreview(entry) {
   temp.innerHTML =
     entry.html;
 
-  const text =
-    temp.textContent
-      .replace(/\s+/g, " ")
-      .trim();
+  const walker =
+    document.createTreeWalker(
+      temp,
+      NodeFilter.SHOW_ALL
+    );
 
-  /* article/chapter titles */
+  let started = false;
+  let buffer = "";
 
-  const quotedTitle =
-    text.match(/“([^”]+)”/);
+  while (walker.nextNode()) {
 
-  if (quotedTitle) {
-    return `“${quotedTitle[1]}”`;
-  }
+    const node =
+      walker.currentNode;
 
-  /* book titles */
+    /* -----------------------
+       Find year first
+    ------------------------ */
 
-  const firstItalic =
-    temp.querySelector("em, i");
+    if (
+      !started &&
+      node.nodeType === Node.TEXT_NODE
+    ) {
 
-  if (firstItalic) {
+      const yearMatch =
+        node.textContent.match(
+          /\b(1\d{3}|20\d{2})\./
+        );
 
-    const title =
-      firstItalic.textContent
+      if (yearMatch) {
+
+        started = true;
+
+        const afterYear =
+          node.textContent.slice(
+            yearMatch.index +
+            yearMatch[0].length
+          );
+
+        buffer += afterYear;
+
+        continue;
+      }
+    }
+
+    if (!started) {
+      continue;
+    }
+
+    /* -----------------------
+       Collect text after year
+    ------------------------ */
+
+    if (
+      node.nodeType === Node.TEXT_NODE
+    ) {
+
+      buffer +=
+        node.textContent;
+    }
+
+    else if (
+      node.nodeType ===
+      Node.ELEMENT_NODE &&
+      (
+        node.tagName === "EM" ||
+        node.tagName === "I"
+      )
+    ) {
+
+      buffer +=
+        node.textContent;
+    }
+
+    /* -----------------------
+       Stop at first sentence end
+    ------------------------ */
+
+    const cleaned =
+      buffer
         .replace(/\s+/g, " ")
         .trim();
 
-    if (title) {
-      return title;
+    const article =
+      cleaned.match(
+        /^“([^”]+)\.?”/
+      );
+
+    if (article) {
+
+      return `“${article[1]}”`;
+    }
+
+    const sentence =
+      cleaned.match(
+        /^([^.]*)\./
+      );
+
+    if (
+      sentence &&
+      sentence[1].trim()
+    ) {
+
+      return sentence[1]
+        .trim();
     }
   }
 
-  /* fallback */
-
-  const yearMatch =
-    text.match(
-      /\b(1\d{3}|20\d{2})\.\s*/
-    );
-
-  if (!yearMatch) {
-    return text;
-  }
-
-  const afterYear =
-    text.slice(
-      yearMatch.index +
-      yearMatch[0].length
-    );
-
-  return afterYear;
+  return buffer
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /* =========================================
@@ -558,14 +619,6 @@ document
         ) {
           return;
         }
-
-        console.log(
-          key,
-          bibliography.entries[key].text,
-          bibliographyPreview(
-            bibliography.entries[key]
-          )
-        );
 
         tooltip.textContent =
           bibliographyPreview(
