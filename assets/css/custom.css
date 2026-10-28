@@ -193,3 +193,10 @@ html[data-bs-theme="light"] .post-tail-wrapper .post-meta a:not(:hover), html[da
 
 html[data-bs-theme="dark"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="dark"] .content a:not(.img-link) {
     border-bottom: 1px solid #434343;
+
+
+#works-cited ~ p {
+  text-align: left !important;
+  text-indent: -2em;
+  padding-left: 2em;
+}
