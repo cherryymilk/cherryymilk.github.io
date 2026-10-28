@@ -472,7 +472,8 @@ function processCitations(
       node.textContent;
 
     if (
-      !text.includes("(")
+      !text.includes("(") &&
+      !text.includes("[")
     ) {
       continue;
     }
