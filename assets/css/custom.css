@@ -46,9 +46,18 @@ a#avatar {
     text-align: justify;
 }
 
-.citation-tooltip {
+html[data-bs-theme="light"] .citation-tooltip {
   --tooltip-bg: #212529;
   --tooltip-fg: #fff;
+}
+
+html[data-bs-theme="dark"] .citation-tooltip {
+  --tooltip-bg: #fff;
+  --tooltip-fg: #212529;
+}
+
+
+.citation-tooltip {
 
   background: var(--tooltip-bg);
   color: var(--tooltip-fg);
@@ -69,11 +78,6 @@ a#avatar {
   pointer-events: none;
 
   box-shadow: 0 .25rem .5rem rgba(0,0,0,.15);
-}
-
-[data-bs-theme="dark"] .citation-tooltip {
-  --tooltip-bg: #fff;
-  --tooltip-fg: #212529;
 }
 
 .citation-tooltip::after {
