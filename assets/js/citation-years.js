@@ -442,46 +442,10 @@ if (bestTitle) {
   return bestTitle;
 }
 
-/*
-  Prevent unrelated work titles with
-  release years like:
-
-    Iron Lung (2026)
-
-  from falling through to nearby
-  authors such as Stefansky (2026).
-
-  Only do this for bare-year citations.
-*/
-
-const recentText =
-  textBefore
-    .toLowerCase()
-    .slice(-100);
-
-const knownTitle =
-  Object.keys(
-    bibliography.titles
-  ).some(
-    title =>
-      recentText.includes(
-        title
-      )
-  );
-
-if (
-  !knownTitle &&
-  /^\d{4}[a-z]?$/.test(
-    year
-  )
-) {
-  return null;
-}
-
-const yearMatches =
-  bibliography.years?.[
-    year
-  ];
+  const yearMatches =
+    bibliography.years?.[
+      year
+    ];
 
   if (
     yearMatches &&
