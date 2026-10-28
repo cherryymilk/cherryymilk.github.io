@@ -15,7 +15,7 @@ Hancock and McMurtry observe that podcast horror is a composite category that en
 
 *Search query interest for “horror podcast” and “audio horror” between 2004 and 2026.*
 
-[Image]
+![figure](/assets/img/magnus-figure.png)
 
 *Source:* Data from Google Trends (accessed August 19, 2026)
 
