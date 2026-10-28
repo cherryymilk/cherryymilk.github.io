@@ -3,25 +3,25 @@ a {
 }
  
 .citation-link {
-color: inherit;
-text-decoration: none;
+    text-decoration: none;
+    color: #d2603a;
 }
  
 .citation-link:hover {
-text-decoration: underline;
+    text-decoration: underline;
 }
  
 html {
-scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
  
 [id^="ref-"] {
-scroll-margin-top: 100px;
+    scroll-margin-top: 100px;
 }
 
 [id^="ref-"]:target {
-background: rgba(255,105,180,.15);
-transition: background 0.4s;
+    background: rgba(255,105,180,.15);
+    transition: background 0.4s;
 }
 
 header.profile-wrapper {
@@ -162,8 +162,8 @@ html[data-bs-theme="dark"] .citation-tooltip {
 }
 
 #archives a:hover {
-    color: #000 !important;
-    border-bottom: 1px solid #000 !important
+    color: #d2603a !important;
+    border-bottom: 1px solid #d2603a !important
 }
 
 nav.post-navigation {
