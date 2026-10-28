@@ -499,8 +499,7 @@ function inferAuthor(
       target:
         match.target,
       score:
-        40 +
-        recency * 30
+        recency * 100
     });
   }
 
