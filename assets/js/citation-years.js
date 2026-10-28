@@ -420,23 +420,42 @@ if (bestTitle) {
   return bestTitle;
 }
 
+/* ------------------
+   IMMEDIATE TITLE CHECK
+------------------- */
 
 const tail =
   textBefore
     .trim()
     .slice(-120);
 
-console.log(
-  "TAIL:",
-  year,
-  tail
-);
+const finalPhrase =
+  tail.match(
+    /([A-Z][A-Za-z0-9'’!:-]+(?:\s+[A-Z][A-Za-z0-9'’!:-]+){0,6})\s*$/
+  )?.[1];
 
+if (finalPhrase) {
 
-  const yearMatches =
-    bibliography.years?.[
-      year
-    ];
+  const isKnownTitle =
+    Object.keys(
+      bibliography.titles
+    ).some(
+      title =>
+        title.includes(
+          finalPhrase.toLowerCase()
+        )
+    );
+
+  if (!isKnownTitle) {
+
+    return null;
+  }
+}
+
+const yearMatches =
+  bibliography.years?.[
+    year
+  ];
 
   if (
     yearMatches &&
