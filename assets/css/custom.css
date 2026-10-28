@@ -141,14 +141,14 @@ html[data-bs-theme="dark"] .citation-tooltip {
     color: #585858;
 }
 
-.tag {
+.post-tag, .tag {
     background: transparent;
     color: #757575;
     border-color: #e9ecef !important;
     box-shadow: none !important;
 }
 
-.tag:hover {
+.post-tag:hover, .tag:hover {
     background: transparent;
     border-color: #d2603a !important;
 }
