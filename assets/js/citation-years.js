@@ -421,7 +421,7 @@ function processCitations(
           const looksLikeCitation =
             /[A-ZÀ-ÿ].*\d{4}/.test(content)
             ||
-            /^\d{4},/.test(
+            /^\d{4}(?:,|$)/.test(
               content.trim()
             );
 
