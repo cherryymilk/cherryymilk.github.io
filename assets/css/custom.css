@@ -115,3 +115,20 @@ html[data-bs-theme="dark"] .citation-tooltip {
 .btn.btn-outline-primary:not(.disabled) {
     transition: none !important;
 }
+
+#toc-wrapper ul .is-active-link {
+    color: #d2603a !important;
+    border-color: #d2603a !important;
+}
+
+#toc-wrapper ul .is-active-link::before {
+    background-color: #d2603a !important;
+}
+
+#toc-wrapper ul .toc-link:hover {
+    color: #d2603a !important;
+}
+
+#breadcrumb {
+    color: #585858 !important;
+}
