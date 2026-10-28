@@ -127,7 +127,8 @@ function buildBibliography() {
 
   const bibliography = {
     entries: {},
-    authors: {}
+    authors: {},
+    years: {}
   };
 
   const headings = [
@@ -226,6 +227,19 @@ function buildBibliography() {
       text: node.textContent.trim()
     };
 
+    bibliography.years[
+      year
+    ] =
+      bibliography.years[
+        year
+      ] || [];
+
+    bibliography.years[
+      year
+    ].push(
+      primaryKey
+    );
+
     surnames.forEach(
       surname => {
 
@@ -309,6 +323,18 @@ if (
     }
   }
 }
+
+  const yearMatches =
+    bibliography.years?.[
+      year
+    ];
+
+  if (
+    yearMatches &&
+    yearMatches.length === 1
+  ) {
+    return yearMatches[0];
+  }
 
   const lowered =
     slugify(textBefore);
