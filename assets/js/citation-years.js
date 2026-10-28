@@ -724,6 +724,15 @@ function processCitations(
                 rest
               );
 
+              
+console.log(
+  "AUTHOR KEY:",
+  author,
+  year,
+  key
+);
+
+
             });
 
           return (
