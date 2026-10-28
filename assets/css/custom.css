@@ -2,15 +2,24 @@ a {
     color: #585858;
 }
 
+html[data-bs-theme="light"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="light"] .content a:not(.img-link) {
+    border-bottom: 1px solid #c4c4c4;
+}
+
+html[data-bs-theme="dark"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="dark"] .content a:not(.img-link) {
+    border-bottom: 1px solid #434343;
+}
+
 a.citation-link {
     text-decoration: none;
     color: #d2603a !important;
     opacity: 0.8 !important;
 }
 
-.citation-link:hover {
+a.citation-link:hover {
     text-decoration: underline;
     opacity: 1 !important;
+    border-bottom-color: #d2603a !important;
 }
 
 html {
@@ -186,14 +195,6 @@ nav.post-navigation {
     text-overflow: ellipsis;
   }
 }
-
-html[data-bs-theme="light"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="light"] .content a:not(.img-link) {
-    border-bottom: 1px solid #c4c4c4;
-}
-
-html[data-bs-theme="dark"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="dark"] .content a:not(.img-link) {
-    border-bottom: 1px solid #434343;
-
 
 #works-cited ~ p {
   text-align: left !important;
