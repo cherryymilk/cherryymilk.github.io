@@ -129,6 +129,14 @@ html[data-bs-theme="dark"] .citation-tooltip {
     color: #d2603a !important;
 }
 
+#breadcrumb a {
+    color: #757575 !important;
+}
+
 #breadcrumb {
     color: #585858 !important;
+}
+
+.card a {
+    color: #585858;
 }
