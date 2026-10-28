@@ -4,7 +4,8 @@ a {
  
 .citation-link {
     text-decoration: none;
-    color: #d2603a;
+    color: #d2603a !important;
+    opacity: 0.8;
 }
  
 .citation-link:hover {
