@@ -1,3 +1,6 @@
+a {
+    color: #585858;
+}
  
 .citation-link {
 color: inherit;
@@ -165,4 +168,12 @@ html[data-bs-theme="dark"] .citation-tooltip {
 
 nav.post-navigation {
     display: none !important;
+}
+
+#page-category, #page-tag { 
+  ul > li > a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
