@@ -446,6 +446,12 @@ if (finalPhrase) {
         )
     );
 
+console.log(
+  "FINAL PHRASE:",
+  year,
+  finalPhrase
+);
+
   if (!isKnownTitle) {
 
     return null;
@@ -723,15 +729,6 @@ function processCitations(
                 `<span class="cite-year">${year}</span>` +
                 rest
               );
-
-              
-console.log(
-  "AUTHOR KEY:",
-  author,
-  year,
-  key
-);
-
 
             });
 
