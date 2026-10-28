@@ -109,7 +109,7 @@ Kawamura, Genki, dir. 2025. *8番出口* \[Exit 8\]. Performed by Kazunari Ninom
 
 Klevjer, Rune. 2022. *What Is the Avatar?: Fiction and Embodiment in Avatar-Based Singleplayer Computer Games*. Transcript Verlag.
 
-Koseki Kazunori. 2025. “まるで『8番出口』の世界観…！ ｢不気味すぎる地下通路｣｢あまりに神々しい"地下神殿"｣　日本各地にある《地下施設》が凄すぎた.” 東洋経済オンライン, August. https://toyokeizai.net/articles/-/901529.
+Koseki, Kazunori. 2025. “まるで『8番出口』の世界観…！ ｢不気味すぎる地下通路｣｢あまりに神々しい"地下神殿"｣　日本各地にある《地下施設》が凄すぎた.” 東洋経済オンライン, August. https://toyokeizai.net/articles/-/901529.
 
 Kotake Create. 2023. *The Exit 8*. V. 1.0.9. Released. PC.
 
