@@ -71,6 +71,12 @@ This essay has argued that the formal organization of Kotake Create’s *Exit 8*
 
 Returning to Caracciolo’s claim that the time loop “invite\[s\] readers to reflect on … how different the future might look depending on our personal and collective actions in the present” (2025, 154), it has become clear in the course of this essay that Kawamura’s *Exit 8* is similarly invested in futurity and turns its time loop toward these ends. What sets the film apart, however, is that it represents what remains in Caracciolo’s corpus only “the *prospect* of breaking out of the loop” (160, my emphasis) as a concrete narrative endpoint, charting a way toward futurity through an ethics of attentiveness from which emerges the possibility of plurality, action, and new beginnings. In this sense, *Exit 8* demonstrates that the ideological affordances of the time loop are to be found not only in its capacity to stage repetition, but also in the conditions it establishes for that repetition’s interruption—conditions through which escape from other forms of cyclical unfreedom becomes equally thinkable.
 
+### Notes
+
+[^1]: The video game is officially titled *The Exit 8* and the film adaptation *Exit 8*. To avoid confusion, I refer to both simply as *Exit 8*, specifying 'the video game' or 'the film' where disambiguation is necessary.
+
+[^2]: Following Lahdenperä (2018), I use feminine pronouns for the player throughout this essay.
+
 ### Works cited
 
 Adams, Ernest. 2010. *Fundamentals of Game Design*. 2nd ed. New Riders.
@@ -150,7 +156,3 @@ Wiggins, Bradley Earl. 2025. “The Backrooms and Liminal Spaces: Explorations o
 Zer0_Ph34r. 2026. Review of *The Exit 8*. Steam Community, April 21. https://steamcommunity.com/id/Zer0_Ph34r/recommended/2653790/.
 
 Zimmerman, Felix, and Christian Huberts. 2019. “From Walking Simulator to Ambience Action Game: A Philosophical Approach to a Misunderstood Genre.” *Press Start* 5 (2): 29–50.
-
-[^1]: The video game is officially titled *The Exit 8* and the film adaptation *Exit 8*. To avoid confusion, I refer to both simply as *Exit 8*, specifying 'the video game' or 'the film' where disambiguation is necessary.
-
-[^2]: Following Lahdenperä (2018), I use feminine pronouns for the player throughout this essay.
