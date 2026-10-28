@@ -723,9 +723,9 @@ function processCitations(
             });
 
           return (
-            "(" +
+            "[" +
             processed.join("; ") +
-            ")"
+            "]"
           );
         }
       );
