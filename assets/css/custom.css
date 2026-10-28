@@ -146,10 +146,17 @@ html[data-bs-theme="dark"] .citation-tooltip {
     color: #585858;
 }
 
+html[data-bs-theme="dark"] .post-tag, html[data-bs-theme="dark"] .tag {
+    border-color: #757575 !important;
+}
+
+html[data-bs-theme="light"] .post-tag, html[data-bs-theme="light"] .tag {
+    border-color: #e9ecef !important;
+}
+
 .post-tag, .tag {
     background: transparent;
     color: #757575;
-    border-color: #e9ecef !important;
     box-shadow: none !important;
 }
 
@@ -179,3 +186,10 @@ nav.post-navigation {
     text-overflow: ellipsis;
   }
 }
+
+html[data-bs-theme="light"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="light"] .content a:not(.img-link) {
+    border-bottom: 1px solid #c4c4c4;
+}
+
+html[data-bs-theme="dark"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="dark"] .content a:not(.img-link) {
+    border-bottom: 1px solid #434343;
