@@ -644,28 +644,6 @@ document
             bibliography.entries[key]
           );
 
-        updateTooltipTheme();
-
-        const themeToggle =
-          document.querySelector(
-            "[data-theme-mode]"
-          );
-
-        if (themeToggle) {
-
-          new MutationObserver(
-            updateTooltipTheme
-          ).observe(
-            themeToggle,
-            {
-              attributes: true,
-              attributeFilter: [
-                "data-theme-mode"
-              ]
-            }
-          );
-        }
-
         tooltip.style.display =
           "block";
 
@@ -708,41 +686,3 @@ document
 
 
 
-
-function updateTooltipTheme() {
-
-  const modeButton =
-    document.querySelector(
-      "[data-theme-mode]"
-    );
-
-  const mode =
-    modeButton?.dataset
-      ?.themeMode;
-
-  if (mode === "dark") {
-
-    tooltip.style.setProperty(
-      "--tooltip-bg",
-      "#212529"
-    );
-
-    tooltip.style.setProperty(
-      "--tooltip-fg",
-      "#fff"
-    );
-  }
-
-  else {
-
-    tooltip.style.setProperty(
-      "--tooltip-bg",
-      "#fff"
-    );
-
-    tooltip.style.setProperty(
-      "--tooltip-fg",
-      "#212529"
-    );
-  }
-}

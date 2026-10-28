@@ -47,14 +47,14 @@ a#avatar {
 }
 
 .citation-tooltip {
-  --tooltip-bg: #111;
-  --tooltip-fg: #fff;
-
-  position: fixed;
-  display: none;
+  --tooltip-bg: #fff;
+  --tooltip-fg: #212529;
 
   background: var(--tooltip-bg);
   color: var(--tooltip-fg);
+
+  position: fixed;
+  display: none;
 
   max-width: 320px;
 
@@ -68,8 +68,12 @@ a#avatar {
   z-index: 9999;
   pointer-events: none;
 
-  box-shadow:
-    0 .25rem .5rem rgba(0,0,0,.15);
+  box-shadow: 0 .25rem .5rem rgba(0,0,0,.15);
+}
+
+[data-bs-theme="dark"] .citation-tooltip {
+  --tooltip-bg: #212529;
+  --tooltip-fg: #fff;
 }
 
 .citation-tooltip::after {
