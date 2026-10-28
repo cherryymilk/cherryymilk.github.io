@@ -357,6 +357,17 @@ for (
   )
 ) {
 
+  if (
+    loweredText.includes("family")
+  ) {
+    console.log(
+      title,
+      key,
+      year,
+      key.endsWith("-" + year)
+    );
+  }
+
   let pos = loweredText.lastIndexOf(
     title
   );
