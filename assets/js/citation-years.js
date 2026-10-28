@@ -266,20 +266,20 @@ function buildBibliography() {
    AUTHOR INFERENCE
 ========================================= */
 
-console.log(
-  "TEXT BEFORE:",
-  textBefore
-);
-
 function inferAuthor(
   textBefore,
   year,
   bibliography
 ) {
 
+console.log(
+  "TEXT BEFORE:",
+  textBefore
+);
+
 if (
   /\belsewhere\b/i.test(
-    textBefore.slice(-500)
+    textBefore
   )
 ) {
 
