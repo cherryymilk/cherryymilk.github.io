@@ -342,9 +342,10 @@ if (
   }
 }
 
-const loweredText =
+const recentText =
   textBefore
     .toLowerCase()
+    .slice(-150);
 
 let bestTitle = null;
 let bestPos = -1;
