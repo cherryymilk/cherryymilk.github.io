@@ -20,6 +20,10 @@ function bibliographyPreview(entry) {
 
   const text =
     entry.html
+      .replace(
+        /https?:\/\/\S+/g,
+        ""
+      )
       .replace(/\s+/g, " ")
       .trim();
 
@@ -359,9 +363,15 @@ for (
 
   if (pos >= 0) {
 
-    if (pos > bestPos) {
-      bestPos = pos;
-      bestTitle = key;
+    if (
+      bibliography.entries[key] &&
+      key.endsWith("-" + year)
+    ) {
+
+      if (pos > bestPos) {
+        bestPos = pos;
+        bestTitle = key;
+      }
     }
 
     continue;
@@ -398,9 +408,15 @@ for (
         ...wordPositions
       );
 
-    if (pos > bestPos) {
-      bestPos = pos;
-      bestTitle = key;
+    if (
+      bibliography.entries[key] &&
+      key.endsWith("-" + year)
+    ) {
+
+      if (pos > bestPos) {
+        bestPos = pos;
+        bestTitle = key;
+      }
     }
   }
 }
