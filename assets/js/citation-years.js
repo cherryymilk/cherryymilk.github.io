@@ -350,6 +350,26 @@ for (
   ) {
     return key;
   }
+
+  const words =
+    title
+      .split(/\s+/)
+      .filter(
+        word =>
+          word.length > 3
+      );
+
+  if (
+    words.length &&
+    words.every(
+      word =>
+        loweredText.includes(
+          word
+        )
+    )
+  ) {
+    return key;
+  }
 }
 
   const yearMatches =
