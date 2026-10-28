@@ -15,6 +15,10 @@ function bibliographyPreview(entry) {
 
   const text =
     entry.html
+      .replace(
+        /<a\b[^>]*>.*?<\/a>/gi,
+        ""
+      )
       .replace(/\s+/g, " ")
       .trim();
 
@@ -399,6 +403,12 @@ for (
     }
   }
 }
+
+console.log(
+"TITLE PICK:",
+bestTitle,
+year
+);
 
 if (bestTitle) {
   return bestTitle;
