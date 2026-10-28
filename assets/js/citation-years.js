@@ -345,7 +345,6 @@ if (
 const loweredText =
   textBefore
     .toLowerCase()
-    .slice(-500);
 
 let bestTitle = null;
 let bestPos = -1;
