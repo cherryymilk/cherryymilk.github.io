@@ -104,3 +104,14 @@ html[data-bs-theme="dark"] .citation-tooltip {
 .citation-tooltip i {
   font-style: italic;
 }
+
+.btn.btn-outline-primary:not(.disabled):hover {
+    background: transparent !important;
+    border-color: #d2603a !important;
+    color: #d2603a !important;
+    transition: none !important;
+}
+
+.btn.btn-outline-primary:not(.disabled) {
+    transition: none !important;
+}
