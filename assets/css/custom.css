@@ -47,8 +47,8 @@ a#avatar {
 }
 
 .citation-tooltip {
-  --tooltip-bg: #fff;
-  --tooltip-fg: #212529;
+  --tooltip-bg: #212529;
+  --tooltip-fg: #fff;
 
   background: var(--tooltip-bg);
   color: var(--tooltip-fg);
@@ -72,8 +72,8 @@ a#avatar {
 }
 
 [data-bs-theme="dark"] .citation-tooltip {
-  --tooltip-bg: #212529;
-  --tooltip-fg: #fff;
+  --tooltip-bg: #fff;
+  --tooltip-fg: #212529;
 }
 
 .citation-tooltip::after {
