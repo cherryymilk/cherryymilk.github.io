@@ -13,11 +13,6 @@ function slugify(text) {
 
 function bibliographyPreview(entry) {
 
-  console.log(
-    "ENTRY HTML:",
-    entry.html
-  );
-
   const text =
     entry.html
       .replace(
@@ -317,130 +312,130 @@ function inferAuthor(
   bibliography
 ) {
 
-if (
-  /\belsewhere\b/i.test(
-    textBefore
-  )
-) {
+  const candidates = [];
 
-  const mine =
-    bibliography.authors[
-      "ballegeer"
-    ];
-
-  if (mine) {
-
-    const match =
-      mine.find(
-        entry =>
-          entry.year === year
-      );
-
-    if (match) {
-      return match.target;
-    }
-  }
-}
-
-const loweredText =
-  textBefore
-    .toLowerCase()
-
-let bestTitle = null;
-let bestPos = -1;
-
-for (
-  const [title, key]
-  of Object.entries(
-    bibliography.titles
-  )
-) {
+  /* ------------------
+     ELSEWHERE SELF-CITE
+  ------------------- */
 
   if (
-    loweredText.includes("family")
-  ) {
-    console.log(
-      title,
-      key,
-      year,
-      key.endsWith("-" + year)
-    );
-  }
-
-  let pos = loweredText.lastIndexOf(
-    title
-  );
-
-  if (pos >= 0) {
-
-    if (
-      bibliography.entries[key] &&
-      key.endsWith("-" + year)
-    ) {
-
-      if (pos > bestPos) {
-        bestPos = pos;
-        bestTitle = key;
-      }
-    }
-
-    continue;
-  }
-
-  const words =
-    title
-      .split(/\s+/)
-      .filter(
-        word =>
-          word.length > 3
-      );
-
-  if (
-    words.length &&
-    words.every(
-      word =>
-        loweredText.includes(
-          word
-        )
+    /\belsewhere\b/i.test(
+      textBefore
     )
   ) {
 
-    const wordPositions =
-      words.map(
-        word =>
-          loweredText.lastIndexOf(
-            word
-          )
-      );
+    const mine =
+      bibliography.authors[
+        "ballegeer"
+      ];
 
-    pos =
-      Math.max(
-        ...wordPositions
-      );
+    if (mine) {
 
-    if (
-      bibliography.entries[key] &&
-      key.endsWith("-" + year)
-    ) {
+      const match =
+        mine.find(
+          entry =>
+            entry.year === year
+        );
 
-      if (pos > bestPos) {
-        bestPos = pos;
-        bestTitle = key;
+      if (match) {
+        candidates.push({
+          target: match.target,
+          score: 100
+        });
       }
     }
   }
-}
 
-if (bestTitle) {
+  /* ------------------
+     TITLE MATCHES
+  ------------------- */
 
-  console.log(
-    "TITLE PICK:",
-    bestTitle,
-    year
-  );
+  const loweredText =
+    textBefore.toLowerCase();
 
-  return bestTitle;
-}
+  for (
+    const [title, key]
+    of Object.entries(
+      bibliography.titles
+    )
+  ) {
+
+    if (
+      !key.endsWith(
+        "-" + year
+      )
+    ) {
+      continue;
+    }
+
+    let pos =
+      loweredText.lastIndexOf(
+        title
+      );
+
+    if (pos >= 0) {
+
+      candidates.push({
+        target: key,
+        score:
+          90 +
+          pos /
+            Math.max(
+              1,
+              loweredText.length
+            )
+      });
+
+      continue;
+    }
+
+    const words =
+      title
+        .split(/\s+/)
+        .filter(
+          word =>
+            word.length > 3
+        );
+
+    if (
+      words.length &&
+      words.every(
+        word =>
+          loweredText.includes(
+            word
+          )
+      )
+    ) {
+
+      const wordPositions =
+        words.map(
+          word =>
+            loweredText.lastIndexOf(
+              word
+            )
+        );
+
+      pos =
+        Math.max(
+          ...wordPositions
+        );
+
+      candidates.push({
+        target: key,
+        score:
+          75 +
+          pos /
+            Math.max(
+              1,
+              loweredText.length
+            )
+      });
+    }
+  }
+
+  /* ------------------
+     UNIQUE YEAR
+  ------------------- */
 
   const yearMatches =
     bibliography.years?.[
@@ -451,14 +446,20 @@ if (bestTitle) {
     yearMatches &&
     yearMatches.length === 1
   ) {
-    return yearMatches[0];
+
+    candidates.push({
+      target:
+        yearMatches[0],
+      score: 70
+    });
   }
+
+  /* ------------------
+     AUTHOR MATCHES
+  ------------------- */
 
   const lowered =
     slugify(textBefore);
-
-  let best = null;
-  let bestAuthorPos = -1;
 
   for (
     const surname of Object.keys(
@@ -487,13 +488,63 @@ if (bestTitle) {
       continue;
     }
 
-    if (pos > bestAuthorPos) {
-      bestAuthorPos = pos;
-      best = match.target;
-    }
+    const recency =
+      pos /
+      Math.max(
+        1,
+        lowered.length
+      );
+
+    candidates.push({
+      target:
+        match.target,
+      score:
+        40 +
+        recency * 30
+    });
   }
 
-  return best;
+  /* ------------------
+     CHOOSE BEST
+  ------------------- */
+
+  if (
+    !candidates.length
+  ) {
+    return null;
+  }
+
+  candidates.sort(
+    (a, b) =>
+      b.score -
+      a.score
+  );
+
+console.log(
+  "BEST CANDIDATE:",
+  candidates[0]
+);
+
+  /*
+    Require some confidence.
+    Prevents weak
+    "nearest author in paragraph"
+    guesses like:
+
+    Iron Lung (2026)
+
+    -> Stefansky 2026
+  */
+
+  if (
+    candidates[0]
+      .score < 40
+  ) {
+    return null;
+  }
+
+  return candidates[0]
+    .target;
 }
 
 /* =========================================
@@ -568,12 +619,6 @@ function processCitations(
         fullMatch,
         content
       ) => {
-
-        console.log(
-          "CITATION:",
-          fullMatch,
-          content
-        );
 
         const looksLikeCitation =
           /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
@@ -738,12 +783,6 @@ function processCitations(
         fullMatch,
         content
       ) => {
-
-        console.log(
-          "CITATION:",
-          fullMatch,
-          content
-        );
 
         const looksLikeCitation =
           /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
@@ -929,11 +968,6 @@ function processCitations(
 
 const bibliography =
   buildBibliography();
-
-console.log(
-  "TITLES:",
-  bibliography.titles
-);
 
 processCitations(
   bibliography
