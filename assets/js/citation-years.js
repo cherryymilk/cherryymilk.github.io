@@ -502,14 +502,16 @@ function processCitations(
             parenContent ??
             bracketContent;
 
-console.log(
-  "CITATION:",
-  fullMatch,
-  content
-);
+          console.log(
+            "CITATION:",
+            fullMatch,
+            content
+          );
 
           const looksLikeCitation =
-            /[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(content)
+            /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
+              content.trim()
+            )
             ||
             /^\d{4}[a-z]?(?:,|$)/i.test(
               content.trim()
