@@ -502,6 +502,13 @@ function processCitations(
             parenContent ??
             bracketContent;
 
+          if (
+            content.includes("[") &&
+            content.includes("]")
+          ) {
+            return fullMatch;
+          }
+
           console.log(
             "CITATION:",
             fullMatch,
