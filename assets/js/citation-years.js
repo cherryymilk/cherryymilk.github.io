@@ -266,6 +266,11 @@ function buildBibliography() {
    AUTHOR INFERENCE
 ========================================= */
 
+console.log(
+  "TEXT BEFORE:",
+  textBefore
+);
+
 function inferAuthor(
   textBefore,
   year,
@@ -273,8 +278,14 @@ function inferAuthor(
 ) {
 
 if (
-  /\belsewhere\b/i.test(textBefore)
+  /\belsewhere\b/i.test(
+    textBefore.slice(-500)
+  )
 ) {
+
+  console.log(
+    "ELSEWHERE FOUND"
+  );
 
   const mine =
     bibliography.authors[
