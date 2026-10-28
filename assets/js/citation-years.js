@@ -655,6 +655,11 @@ function processCitations(
    RUN
 ========================================= */
 
+console.log(
+  "TITLES:",
+  bibliography.titles
+);
+
 const bibliography =
   buildBibliography();
 
