@@ -689,7 +689,7 @@ document
 
 
 
-  function updateTooltipTheme() {
+function updateTooltipTheme() {
 
   const modeButton =
     document.querySelector(
@@ -702,19 +702,27 @@ document
 
   if (mode === "dark") {
 
-    tooltip.style.background =
-      "#212529";
+    tooltip.style.setProperty(
+      "--tooltip-bg",
+      "#212529"
+    );
 
-    tooltip.style.color =
-      "#fff";
+    tooltip.style.setProperty(
+      "--tooltip-fg",
+      "#fff"
+    );
   }
 
   else {
 
-    tooltip.style.background =
-      "#fff";
+    tooltip.style.setProperty(
+      "--tooltip-bg",
+      "#fff"
+    );
 
-    tooltip.style.color =
-      "#212529";
+    tooltip.style.setProperty(
+      "--tooltip-fg",
+      "#212529"
+    );
   }
 }

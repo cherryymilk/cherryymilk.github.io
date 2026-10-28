@@ -47,25 +47,26 @@ a#avatar {
 }
 
 .citation-tooltip {
+  --tooltip-bg: #111;
+  --tooltip-fg: #fff;
+
   position: fixed;
   display: none;
 
-  background: #111;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-fg);
 
-  color: #fff;
+  max-width: 320px;
 
   padding: .35rem .55rem;
 
-  font-size: .875rem;
-  line-height: 1.35;
-
-  max-width: 250px;
-
   border-radius: .375rem;
 
-  pointer-events: none;
+  font-size: .875rem;
+  line-height: 1.4;
 
   z-index: 9999;
+  pointer-events: none;
 
   box-shadow:
     0 .25rem .5rem rgba(0,0,0,.15);
@@ -83,7 +84,8 @@ a#avatar {
 
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #111;
+
+  border-top: 6px solid var(--tooltip-bg);
 }
 
 .citation-tooltip p {
