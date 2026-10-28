@@ -1,21 +1,22 @@
 a {
     color: #585858;
 }
- 
-.citation-link {
+
+a.citation-link {
     text-decoration: none;
     color: #d2603a !important;
-    opacity: 0.8;
+    opacity: 0.8 !important;
 }
- 
+
 .citation-link:hover {
     text-decoration: underline;
+    opacity: 1 !important;
 }
- 
+
 html {
     scroll-behavior: smooth;
 }
- 
+
 [id^="ref-"] {
     scroll-margin-top: 100px;
 }
