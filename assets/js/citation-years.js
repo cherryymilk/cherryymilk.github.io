@@ -13,12 +13,13 @@ function slugify(text) {
 
 function bibliographyPreview(entry) {
 
+  console.log(
+    "ENTRY HTML:",
+    entry.html
+  );
+
   const text =
     entry.html
-      .replace(
-        /<a\b[^>]*>.*?<\/a>/gi,
-        ""
-      )
       .replace(/\s+/g, " ")
       .trim();
 
@@ -404,13 +405,14 @@ for (
   }
 }
 
-console.log(
-"TITLE PICK:",
-bestTitle,
-year
-);
-
 if (bestTitle) {
+
+  console.log(
+    "TITLE PICK:",
+    bestTitle,
+    year
+  );
+
   return bestTitle;
 }
 

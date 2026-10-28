@@ -50,6 +50,7 @@ a#avatar {
 #sidebar #avatar img {
     width: 100% !important;
     height: 100% !important;
+    padding: 20px;
 }
 
 .container.d-flex {
@@ -200,4 +201,10 @@ nav.post-navigation {
   text-align: left !important;
   text-indent: -2em;
   padding-left: 2em;
+}
+
+.access {}
+
+#sidebar #avatar img:hover {
+    transform: none !important;
 }
