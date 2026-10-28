@@ -20,7 +20,7 @@ function bibliographyPreview(entry) {
 
   const yearMatch =
     text.match(
-      /\b(1\d{3}|20\d{2})\.\s*/
+      /\b(1\d{3}|20\d{2})([a-z])?\.\s*/i
     );
 
   if (!yearMatch) {
@@ -160,7 +160,9 @@ function buildBibliography() {
       continue;
     }
 
-    const year = yearMatch[1];
+    const year =
+      yearMatch[1] +
+      (yearMatch[2] || "");
 
     const authorPart =
       text.slice(0, yearMatch.index);
