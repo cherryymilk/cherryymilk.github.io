@@ -334,7 +334,12 @@ if (
 }
 
 const loweredText =
-  textBefore.toLowerCase();
+  textBefore
+    .toLowerCase()
+    .slice(-500);
+
+let bestTitle = null;
+let bestPos = -1;
 
 for (
   const [title, key]
@@ -343,12 +348,18 @@ for (
   )
 ) {
 
-  if (
-    loweredText.includes(
-      title
-    )
-  ) {
-    return key;
+  let pos = loweredText.lastIndexOf(
+    title
+  );
+
+  if (pos >= 0) {
+
+    if (pos > bestPos) {
+      bestPos = pos;
+      bestTitle = key;
+    }
+
+    continue;
   }
 
   const words =
@@ -368,8 +379,29 @@ for (
         )
     )
   ) {
-    return key;
+
+    const wordPositions =
+      words.map(
+        word =>
+          loweredText.lastIndexOf(
+            word
+          )
+      );
+
+    pos =
+      Math.max(
+        ...wordPositions
+      );
+
+    if (pos > bestPos) {
+      bestPos = pos;
+      bestTitle = key;
+    }
   }
+}
+
+if (bestTitle) {
+  return bestTitle;
 }
 
   const yearMatches =
@@ -663,33 +695,33 @@ function processCitations(
 
 /* then parentheses */
 
-html = html.replace(
-  /\(([^)]*)\)/g,
-  (
-    fullMatch,
-    content
-  ) => {
+    html = html.replace(
+      /\(([^)]*)\)/g,
+      (
+        fullMatch,
+        content
+      ) => {
 
-    console.log(
-      "CITATION:",
-      fullMatch,
-      content
-    );
+        console.log(
+          "CITATION:",
+          fullMatch,
+          content
+        );
 
-    const looksLikeCitation =
-      /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
-        content.trim()
-      )
-      ||
-      /^\d{4}[a-z]?(?:,|$)/i.test(
-        content.trim()
-      );
+        const looksLikeCitation =
+          /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
+            content.trim()
+          )
+          ||
+          /^\d{4}[a-z]?(?:,|$)/i.test(
+            content.trim()
+          );
 
-    if (
-      !looksLikeCitation
-    ) {
-      return fullMatch;
-    }
+        if (
+          !looksLikeCitation
+        ) {
+          return fullMatch;
+        }
 
           const parts =
             content.split(
