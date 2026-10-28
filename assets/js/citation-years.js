@@ -420,7 +420,7 @@ if (bestTitle) {
     slugify(textBefore);
 
   let best = null;
-  let bestPos = -1;
+  let bestAuthorPos = -1;
 
   for (
     const surname of Object.keys(
@@ -449,9 +449,8 @@ if (bestTitle) {
       continue;
     }
 
-    if (pos > bestPos) {
-
-      bestPos = pos;
+    if (pos > bestAuthorPos) {
+      bestAuthorPos = pos;
       best = match.target;
     }
   }
