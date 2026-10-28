@@ -490,11 +490,16 @@ function processCitations(
 
     const html =
       text.replace(
-        /\(([^)]*)\)/g,
+        /(?:\(([^)]*)\)|\[([^\]]*)\])/g,
         (
           fullMatch,
-          content
+          parenContent,
+          bracketContent
         ) => {
+
+          const content =
+            parenContent ??
+            bracketContent;
 
           const looksLikeCitation =
             /[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(content)
