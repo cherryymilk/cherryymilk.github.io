@@ -589,6 +589,10 @@ function processCitations(
 const bibliography =
   buildBibliography();
 
+console.log(
+  bibliography.authors["ballegeer"]
+);
+
 processCitations(
   bibliography
 );
