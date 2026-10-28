@@ -140,3 +140,29 @@ html[data-bs-theme="dark"] .citation-tooltip {
 .card a {
     color: #585858;
 }
+
+.tag {
+    background: transparent;
+    color: #757575;
+    border-color: #e9ecef !important;
+    box-shadow: none !important;
+}
+
+.tag:hover {
+    background: transparent;
+    border-color: #d2603a !important;
+}
+
+#archives a {
+    color: #585858 !important;
+    background: transparent !important;
+}
+
+#archives a:hover {
+    color: #000 !important;
+    border-bottom: 1px solid #000 !important
+}
+
+nav.post-navigation {
+    display: none !important;
+}
