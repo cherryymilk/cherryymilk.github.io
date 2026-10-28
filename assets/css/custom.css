@@ -47,13 +47,13 @@ a#avatar {
 }
 
 html[data-bs-theme="light"] .citation-tooltip {
-  --tooltip-bg: #212529;
+  --tooltip-bg: #000000;
   --tooltip-fg: #fff;
 }
 
 html[data-bs-theme="dark"] .citation-tooltip {
   --tooltip-bg: #fff;
-  --tooltip-fg: #212529;
+  --tooltip-fg: #000000;
 }
 
 
