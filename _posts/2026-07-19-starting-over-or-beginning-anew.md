@@ -2,6 +2,7 @@
 title: "Starting Over or Beginning Anew? — Breaking the Loop and the Politics of Futurity in *Exit 8*"
 categories: [essay, literary analysis]
 tags: [video games, films, loops]     # TAG names should always be lowercase
+image: /assets/img/1200x630.jpg
 ---
 
 ### Introduction
