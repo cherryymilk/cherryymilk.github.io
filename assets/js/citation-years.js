@@ -489,46 +489,37 @@ function processCitations(
     let changed =
       false;
 
-    const html =
-      text.replace(
-        /(?:\(([^)]*)\)|\[([^\]]*)\])/g,
-        (
+    let html = text;
+
+    /* square brackets first */
+
+    html = html.replace(
+      /\[([^\]]*)\]/g,
+      (
+        fullMatch,
+        content
+      ) => {
+
+        console.log(
+          "CITATION:",
           fullMatch,
-          parenContent,
-          bracketContent
-        ) => {
+          content
+        );
 
-          const content =
-            parenContent ??
-            bracketContent;
-
-          if (
-            content.includes("[") &&
-            content.includes("]")
-          ) {
-            return fullMatch;
-          }
-
-          console.log(
-            "CITATION:",
-            fullMatch,
-            content
+        const looksLikeCitation =
+          /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
+            content.trim()
+          )
+          ||
+          /^\d{4}[a-z]?(?:,|$)/i.test(
+            content.trim()
           );
 
-          const looksLikeCitation =
-            /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
-              content.trim()
-            )
-            ||
-            /^\d{4}[a-z]?(?:,|$)/i.test(
-              content.trim()
-            );
-
-          if (
-            !looksLikeCitation
-          ) {
-            return fullMatch;
-          }
+        if (
+          !looksLikeCitation
+        ) {
+          return fullMatch;
+        }
 
           const parts =
             content.split(
@@ -669,6 +660,177 @@ function processCitations(
           );
         }
       );
+
+/* then parentheses */
+
+html = html.replace(
+  /\(([^)]*)\)/g,
+  (
+    fullMatch,
+    content
+  ) => {
+
+    console.log(
+      "CITATION:",
+      fullMatch,
+      content
+    );
+
+    const looksLikeCitation =
+      /^[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(
+        content.trim()
+      )
+      ||
+      /^\d{4}[a-z]?(?:,|$)/i.test(
+        content.trim()
+      );
+
+    if (
+      !looksLikeCitation
+    ) {
+      return fullMatch;
+    }
+
+          const parts =
+            content.split(
+              /\s*;\s*/
+            );
+
+          const processed =
+            parts.map(part => {
+
+              const prefixMatch =
+                part.match(
+                  /^(see also|see|cf\.|compare|quoted in)\s+/i
+                );
+
+              const prefix =
+                prefixMatch
+                  ? prefixMatch[0]
+                  : "";
+
+              part =
+                part.replace(
+                  /^(see also|see|cf\.|compare|quoted in)\s+/i,
+                  ""
+                );
+
+              /* ------------------
+                BARE YEAR FIRST
+              ------------------- */
+
+              const bareMatch =
+                part.match(
+                  /^(\d{4}[a-z]?)(.*)$/i
+                );
+
+              if (
+                bareMatch
+              ) {
+
+                const year =
+                  bareMatch[1];
+
+                const rest =
+                  bareMatch[2];
+
+                const citationPos =
+                  blockText.indexOf(
+                    fullMatch
+                  );
+
+                const precedingText =
+                  citationPos >= 0
+                    ? blockText.slice(
+                        0,
+                        citationPos
+                      )
+                    : blockText;
+
+                const inferred =
+                  inferAuthor(
+                    precedingText,
+                    year,
+                    bibliography
+                  );
+
+                if (
+                  inferred &&
+                  bibliography.entries[
+                    inferred
+                  ]
+                ) {
+
+                  changed =
+                    true;
+
+                  return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span></a>${rest}`;
+                }
+
+                return `<span class="cite-year">${year}</span>${rest}`;
+              }
+
+              /* ------------------
+                AUTHOR + YEAR
+              ------------------- */
+
+              const authorMatch =
+                part.match(
+                  /^(.+?)\s+(\d{4}[a-z]?)(.*)$/i
+                );
+
+              if (
+                !authorMatch
+              ) {
+                return part;
+              }
+
+              const author =
+                authorMatch[1]
+                  .trim();
+
+              const year =
+                authorMatch[2];
+
+              const rest =
+                authorMatch[3];
+
+              const key =
+                slugify(
+                  author
+                ) +
+                "-" +
+                year;
+
+              if (
+                bibliography
+                  .entries[key]
+              ) {
+
+                changed =
+                  true;
+
+                return `${prefix}<a class="citation-link" data-cite-key="${key}" href="#${bibliography.entries[key].node.id}">${author} <span class="cite-year">${year}</span></a>${rest}`;
+              }
+
+              return (
+                prefix +
+                author +
+                " " +
+                `<span class="cite-year">${year}</span>` +
+                rest
+              );
+
+            });
+
+          return (
+            "(" +
+            processed.join("; ") +
+            ")"
+          );
+        }
+      );
+
 
     if (
       !changed &&
