@@ -655,13 +655,13 @@ function processCitations(
    RUN
 ========================================= */
 
+const bibliography =
+  buildBibliography();
+
 console.log(
   "TITLES:",
   bibliography.titles
 );
-
-const bibliography =
-  buildBibliography();
 
 processCitations(
   bibliography
