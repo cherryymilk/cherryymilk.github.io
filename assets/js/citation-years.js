@@ -128,7 +128,8 @@ function buildBibliography() {
   const bibliography = {
     entries: {},
     authors: {},
-    years: {}
+    years: {},
+    titles: {}
   };
 
   const headings = [
@@ -227,6 +228,23 @@ function buildBibliography() {
       text: node.textContent.trim()
     };
 
+    const preview =
+      bibliographyPreview(
+        bibliography.entries[
+          primaryKey
+        ]
+      )
+        .replace(/<[^>]+>/g, "")
+        .replace(/[“”"]/g, "")
+        .toLowerCase()
+        .trim();
+
+    if (preview) {
+      bibliography.titles[
+        preview
+      ] = primaryKey;
+    }
+
     bibliography.years[
       year
     ] =
@@ -290,20 +308,11 @@ function inferAuthor(
   bibliography
 ) {
 
-console.log(
-  "TEXT BEFORE:",
-  textBefore
-);
-
 if (
   /\belsewhere\b/i.test(
     textBefore
   )
 ) {
-
-  console.log(
-    "ELSEWHERE FOUND"
-  );
 
   const mine =
     bibliography.authors[
@@ -321,6 +330,25 @@ if (
     if (match) {
       return match.target;
     }
+  }
+}
+
+const loweredText =
+  textBefore.toLowerCase();
+
+for (
+  const [title, key]
+  of Object.entries(
+    bibliography.titles
+  )
+) {
+
+  if (
+    loweredText.includes(
+      title
+    )
+  ) {
+    return key;
   }
 }
 
@@ -629,10 +657,6 @@ function processCitations(
 
 const bibliography =
   buildBibliography();
-
-console.log(
-  bibliography.authors["ballegeer"]
-);
 
 processCitations(
   bibliography
