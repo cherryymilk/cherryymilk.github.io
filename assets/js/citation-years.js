@@ -644,6 +644,8 @@ document
             bibliography.entries[key]
           );
 
+        updateTooltipTheme();
+
         tooltip.style.display =
           "block";
 
@@ -681,3 +683,38 @@ document
       }
     );
   });
+
+
+
+
+
+
+  function updateTooltipTheme() {
+
+  const modeButton =
+    document.querySelector(
+      "[data-theme-mode]"
+    );
+
+  const mode =
+    modeButton?.dataset
+      ?.themeMode;
+
+  if (mode === "dark") {
+
+    tooltip.style.background =
+      "#212529";
+
+    tooltip.style.color =
+      "#fff";
+  }
+
+  else {
+
+    tooltip.style.background =
+      "#fff";
+
+    tooltip.style.color =
+      "#212529";
+  }
+}
