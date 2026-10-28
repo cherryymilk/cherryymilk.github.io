@@ -646,6 +646,26 @@ document
 
         updateTooltipTheme();
 
+        const themeToggle =
+          document.querySelector(
+            "[data-theme-mode]"
+          );
+
+        if (themeToggle) {
+
+          new MutationObserver(
+            updateTooltipTheme
+          ).observe(
+            themeToggle,
+            {
+              attributes: true,
+              attributeFilter: [
+                "data-theme-mode"
+              ]
+            }
+          );
+        }
+
         tooltip.style.display =
           "block";
 
