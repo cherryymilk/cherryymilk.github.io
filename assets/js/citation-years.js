@@ -20,7 +20,7 @@ function bibliographyPreview(entry) {
 
   const yearMatch =
     text.match(
-      /\b(1\d{3}|20\d{2})([a-z])?\.\s*/i
+      /\b(1\d{3}|20\d{2})([a-z])?\b/i
     );
 
   if (!yearMatch) {
@@ -421,9 +421,9 @@ function processCitations(
         ) => {
 
           const looksLikeCitation =
-            /[A-ZÀ-ÿ].*\d{4}/.test(content)
+            /[A-ZÀ-ÿ].*\d{4}[a-z]?/i.test(content)
             ||
-            /^\d{4}(?:,|$)/.test(
+            /^\d{4}[a-z]?(?:,|$)/i.test(
               content.trim()
             );
 
@@ -463,7 +463,7 @@ function processCitations(
 
               const bareMatch =
                 part.match(
-                  /^(\d{4})(.*)$/
+                  /^(\d{4}[a-z]?)(.*)$/i
                 );
 
               if (
@@ -518,7 +518,7 @@ function processCitations(
 
               const authorMatch =
                 part.match(
-                  /^(.+?)\s+(\d{4})(.*)$/
+                  /^(.+?)\s+(\d{4}[a-z]?)(.*)$/i
                 );
 
               if (
