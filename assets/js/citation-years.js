@@ -454,6 +454,12 @@ console.log(
 
   if (!isKnownTitle) {
 
+    console.log(
+      "SUPPRESSED AS TITLE:",
+      year,
+      finalPhrase
+    );
+
     return null;
   }
 }
