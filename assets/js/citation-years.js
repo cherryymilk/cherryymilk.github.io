@@ -618,11 +618,6 @@ function processCitations(
         + localText
       );
 
-console.log(
-  "BROAD TEXT:",
-  broadText
-);      
-
     let changed =
       false;
 
@@ -723,12 +718,6 @@ console.log(
                       bibliography
                     );
 
-                  console.log(
-                    "LOCAL:",
-                    year,
-                    inferred
-                  );
-
                 /* fall back to broader context */
 
                 if (!inferred) {
@@ -749,23 +738,12 @@ console.log(
                         )
                       : broadText;
 
-console.log(
-  "PRECEDING TEXT:",
-  precedingText
-);
-
                   const broadInferred =
                     inferAuthor(
                       precedingText,
                       year,
                       bibliography
                     );
-
-                  console.log(
-                    "BROAD:",
-                    year,
-                    broadInferred
-                  );
 
                   inferred = broadInferred;
                 }
@@ -923,95 +901,64 @@ console.log(
                 const nodeText =
                 node.textContent;
 
-/* try local context first */
+                /* try local context first */
 
-let citationPos =
-  localText.indexOf(
-    nodeText
-  );
+                let citationPos =
+                  localText.indexOf(
+                    nodeText
+                  );
 
-let precedingText =
-  citationPos >= 0
-    ? localText.slice(
-        0,
-        citationPos +
-        nodeText.indexOf(
-          fullMatch
-        )
-      )
-    : localText;
+                let precedingText =
+                  citationPos >= 0
+                    ? localText.slice(
+                        0,
+                        citationPos +
+                        nodeText.indexOf(
+                          fullMatch
+                        )
+                      )
+                    : localText;
 
-const localInferred =
-  inferAuthor(
-    precedingText,
-    year,
-    bibliography
-  );
+                const localInferred =
+                  inferAuthor(
+                    precedingText,
+                    year,
+                    bibliography
+                  );
 
-console.log(
-  "LOCAL:",
-  year,
-  localInferred
-);
+                let inferred =
+                  localInferred;
 
-let inferred =
-  localInferred;
+                /* fall back to broader context */
 
-/* fall back to broader context */
+                if (!inferred) {
 
-if (!inferred) {
+                  citationPos =
+                    broadText.indexOf(
+                      localText
+                    );
 
-  citationPos =
-    broadText.indexOf(
-      localText
-    );
+                  precedingText =
+                    citationPos >= 0
+                      ? broadText.slice(
+                          0,
+                          citationPos +
+                          localText.indexOf(
+                            fullMatch
+                          )
+                        )
+                      : broadText;
+                      
+                  const broadInferred =
+                    inferAuthor(
+                      precedingText,
+                      year,
+                      bibliography
+                    );
 
-  precedingText =
-    citationPos >= 0
-      ? broadText.slice(
-          0,
-          citationPos +
-          localText.indexOf(
-            fullMatch
-          )
-        )
-      : broadText;
-
-console.log(
-  "PRECEDING TEXT:",
-  precedingText
-);
-      
-  const broadInferred =
-    inferAuthor(
-      precedingText,
-      year,
-      bibliography
-    );
-
-  console.log(
-    "BROAD:",
-    year,
-    broadInferred
-  );
-
-  inferred =
-    broadInferred;
-}
-
-
-
-if (year === "2026") {
-
-  console.log(
-    "LINK TEST:",
-    year,
-    inferred,
-    bibliography.entries[
-      inferred
-    ]
-  );
-}
+                  inferred =
+                    broadInferred;
+                }
 
                 if (
                   inferred &&
