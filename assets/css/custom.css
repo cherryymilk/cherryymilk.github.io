@@ -72,6 +72,16 @@ html[data-bs-theme="dark"] .citation-tooltip {
 }
 
 
+html[data-bs-theme="dark"] #sidebar #avatar img {
+    filter: invert(1);
+    opacity: 0.7;
+}
+
+html[data-bs-theme="light"] #sidebar #avatar img {
+    filter: none;
+    opacity: 1;
+}
+
 .citation-tooltip {
 
   background: var(--tooltip-bg);

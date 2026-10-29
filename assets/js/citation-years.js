@@ -839,6 +839,8 @@ function processCitations(
                       inferred
                     ]
                   );
+                }
+
 
                 if (
                   inferred &&
