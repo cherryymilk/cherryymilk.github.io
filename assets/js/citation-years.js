@@ -585,13 +585,14 @@ function processCitations(
       continue;
     }
 
-    const block =
+    const contextRoot =
       parent.closest(
-        "p,li,blockquote,div"
-      );
+        "section,article,main"
+      ) || document.body;
 
     const blockText =
-      block?.innerText || "";
+      contextRoot.innerText || "";
+
 
     let changed =
       false;
