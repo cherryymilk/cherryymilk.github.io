@@ -493,6 +493,17 @@ console.log(
         surname
       );
 
+    if (
+      year === "2026" &&
+      pos >= 0
+    ) {
+      console.log(
+        "AUTHOR FOUND:",
+        surname,
+        pos
+      );
+    }
+
     if (pos < 0) {
       continue;
     }
