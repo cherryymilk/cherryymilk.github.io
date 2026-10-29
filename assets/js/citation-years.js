@@ -479,6 +479,24 @@ console.log(
   const lowered =
     slugify(textBefore);
 
+
+if (
+  year === "2026" &&
+  textBefore.includes("Peter Bradshaw")
+) {
+
+  console.log(
+    "HAS BRADSHAW:",
+    lowered.includes("bradshaw")
+  );
+
+  console.log(
+    "BRADSHAW ENTRIES:",
+    bibliography.authors["bradshaw"]
+  );
+}
+
+
   let best = null;
   let bestAuthorPos = -1;
 
