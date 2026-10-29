@@ -463,6 +463,12 @@ const yearMatches =
     year
   ];
 
+console.log(
+  "YEAR MATCHES:",
+  year,
+  yearMatches
+);
+
   if (
     yearMatches &&
     yearMatches.length === 1
