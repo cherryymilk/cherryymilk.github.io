@@ -821,26 +821,25 @@ function processCitations(
                         citationPos
                       )
                     : blockText;
-                    
-                if (year === "2026") {
 
-                  const inferred =
-                    inferAuthor(
-                      precedingText,
-                      year,
-                      bibliography
-                    );
-
-                  console.log(
-                    "LINK TEST:",
+                const inferred =
+                  inferAuthor(
+                    precedingText,
                     year,
-                    inferred,
-                    bibliography.entries[
-                      inferred
-                    ]
+                    bibliography
                   );
-                }
 
+if (year === "2026") {
+
+  console.log(
+    "LINK TEST:",
+    year,
+    inferred,
+    bibliography.entries[
+      inferred
+    ]
+  );
+}
 
                 if (
                   inferred &&
