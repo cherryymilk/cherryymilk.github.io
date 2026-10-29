@@ -232,6 +232,15 @@ function buildBibliography() {
       text: node.textContent.trim()
     };
 
+    bibliography.entries[
+      slugify(surnames[0]) +
+      "-et-al-" +
+      year
+    ] =
+      bibliography.entries[
+        primaryKey
+      ];
+
     const preview =
       bibliographyPreview(
         bibliography.entries[
