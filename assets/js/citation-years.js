@@ -446,12 +446,6 @@ if (finalPhrase) {
         )
     );
 
-console.log(
-  "FINAL PHRASE:",
-  year,
-  finalPhrase
-);
-
   if (!isKnownTitle) {
 
     console.log(
@@ -505,15 +499,6 @@ const yearMatches =
           a.year === year
       );
 
-if (match) {
-  console.log(
-    "AUTHOR CANDIDATE:",
-    surname,
-    year,
-    match.target
-  );
-}
-
     if (!match) {
       continue;
     }
@@ -523,12 +508,6 @@ if (match) {
       best = match.target;
     }
   }
-
-console.log(
-  "RETURNING:",
-  year,
-  best
-);
 
 return best;
 
@@ -845,26 +824,21 @@ function processCitations(
                     
                 if (year === "2026") {
 
-                  console.log(
-                    "PAREN PRECEDING:",
-                    precedingText.slice(-500)
-                  );
-                }
+                  const inferred =
+                    inferAuthor(
+                      precedingText,
+                      year,
+                      bibliography
+                    );
 
-                const inferred =
-                  inferAuthor(
-                    precedingText,
+                  console.log(
+                    "LINK TEST:",
                     year,
-                    bibliography
+                    inferred,
+                    bibliography.entries[
+                      inferred
+                    ]
                   );
-
-                if (year === "2026") {
-
-                  console.log(
-                    "PAREN RESULT:",
-                    inferred
-                  );
-                }
 
                 if (
                   inferred &&
