@@ -3,11 +3,11 @@ a {
 }
 
 html[data-bs-theme="light"] sup a.footnote, html[data-bs-theme="light"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="light"] .content a:not(.img-link) {
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4 !important;
 }
 
 html[data-bs-theme="dark"] sup a.footnote, html[data-bs-theme="dark"] .post-tail-wrapper .post-meta a:not(:hover), html[data-bs-theme="dark"] .content a:not(.img-link) {
-    border-bottom: 1px solid #434343;
+    border-bottom: 1px solid #434343 !important;
 }
 
 sup a.footnote {
@@ -16,7 +16,7 @@ sup a.footnote {
 }    
 
 sup a.footnote:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
     opacity: 1 !important;
     border-bottom-color: #d2603a !important;
 }    
