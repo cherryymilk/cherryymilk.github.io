@@ -572,13 +572,15 @@ function processCitations(
     const localText =
       localBlock?.innerText || "";
 
-    const contextRoot =
-      parent.closest(
-        "section,article,main"
-      ) || document.body;
+    const previousBlock =
+      localBlock?.previousElementSibling;
 
     const broadText =
-      contextRoot.innerText || "";
+      (
+        (previousBlock?.innerText || "")
+        + "\n"
+        + localText
+      );
 
 
     let changed =
