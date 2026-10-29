@@ -1061,7 +1061,7 @@ node.innerHTML = html;
 const bibliography =
   buildBibliography();
 
-/* maik urls clickable */
+/* make urls clickable */
 
 Object.values(
   bibliography.entries
@@ -1070,7 +1070,18 @@ Object.values(
   entry.node.innerHTML =
     entry.node.innerHTML.replace(
       /(https?:\/\/[^\s<]+)/g,
-      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+      (match) => {
+
+        const url =
+          match.replace(/\.$/, "");
+
+        const punctuation =
+          match.endsWith(".")
+            ? "."
+            : "";
+
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${punctuation}`;
+      }
     );
 });
 
