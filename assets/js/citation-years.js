@@ -1140,6 +1140,73 @@ document
   });
 
 
+/* footnote hovers */
+
+document
+  .querySelectorAll(
+    "a.footnote"
+  )
+  .forEach(link => {
+
+    link.addEventListener(
+      "mouseenter",
+      () => {
+
+        const target =
+          document.getElementById(
+            link
+              .getAttribute("href")
+              .slice(1)
+          );
+
+        if (!target) {
+          return;
+        }
+
+        const clone =
+          target.cloneNode(true);
+
+        clone
+          .querySelectorAll(
+            ".reversefootnote"
+          )
+          .forEach(
+            node => node.remove()
+          );
+
+        tooltip.innerHTML =
+          clone.innerHTML;
+
+        tooltip.style.display =
+          "block";
+
+        const rect =
+          link.getBoundingClientRect();
+
+        tooltip.style.left =
+          (
+            rect.left +
+            rect.width / 2 -
+            tooltip.offsetWidth / 2
+          ) + "px";
+
+        tooltip.style.top =
+          (
+            rect.top -
+            tooltip.offsetHeight -
+            12
+          ) + "px";
+      }
+    );
+
+    link.addEventListener(
+      "mouseleave",
+      () => {
+        tooltip.style.display =
+          "none";
+      }
+    );
+  });
 
 
 
