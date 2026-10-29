@@ -518,7 +518,14 @@ if (match) {
     }
   }
 
-  return best;
+console.log(
+  "RETURNING:",
+  year,
+  best
+);
+
+return best;
+
 }
 
 /* =========================================
