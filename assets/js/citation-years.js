@@ -674,11 +674,17 @@ function processCitations(
                       )
                     : localText;
 
-                let inferred =
-                  inferAuthor(
-                    precedingText,
+                  let inferred =
+                    inferAuthor(
+                      precedingText,
+                      year,
+                      bibliography
+                    );
+
+                  console.log(
+                    "LOCAL:",
                     year,
-                    bibliography
+                    inferred
                   );
 
                 /* fall back to broader context */
@@ -701,12 +707,20 @@ function processCitations(
                         )
                       : broadText;
 
-                  inferred =
+                  const broadInferred =
                     inferAuthor(
                       precedingText,
                       year,
                       bibliography
                     );
+
+                  console.log(
+                    "BROAD:",
+                    year,
+                    broadInferred
+                  );
+
+                  inferred = broadInferred;
                 }
 
                 if (
@@ -718,6 +732,12 @@ function processCitations(
 
                   changed =
                     true;
+
+console.log(
+  "FINAL LINK:",
+  year,
+  inferred
+);
 
                   return `<a class="citation-link" data-cite-key="${inferred}" href="#${bibliography.entries[inferred].node.id}"><span class="cite-year">${year}</span></a>${rest}`;
                 }
@@ -883,7 +903,17 @@ function processCitations(
 
                 /* fall back to broader context */
 
-                if (!inferred) {
+                const localInferred =
+                  inferAuthor(
+                    precedingText,
+                    year,
+                    bibliography
+                  );
+
+                if (localInferred) {
+                  inferred = localInferred;
+                } else {
+                  // try broad context
 
                   citationPos =
                     broadText.indexOf(
@@ -907,7 +937,9 @@ function processCitations(
                       year,
                       bibliography
                     );
-                }
+                  }
+
+
 
 if (year === "2026") {
 
