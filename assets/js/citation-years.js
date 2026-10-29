@@ -705,7 +705,7 @@ console.log(
 
                   citationPos =
                     broadText.indexOf(
-                      nodeText
+                      localText
                     );
 
                   precedingText =
@@ -713,11 +713,16 @@ console.log(
                       ? broadText.slice(
                           0,
                           citationPos +
-                          nodeText.indexOf(
+                          localText.indexOf(
                             fullMatch
                           )
                         )
                       : broadText;
+
+console.log(
+  "PRECEDING TEXT:",
+  precedingText
+);
 
                   const broadInferred =
                     inferAuthor(
@@ -928,7 +933,7 @@ if (!inferred) {
 
   citationPos =
     broadText.indexOf(
-      nodeText
+      localText
     );
 
   precedingText =
@@ -936,12 +941,17 @@ if (!inferred) {
       ? broadText.slice(
           0,
           citationPos +
-          nodeText.indexOf(
+          localText.indexOf(
             fullMatch
           )
         )
       : broadText;
 
+console.log(
+  "PRECEDING TEXT:",
+  precedingText
+);
+      
   const broadInferred =
     inferAuthor(
       precedingText,
