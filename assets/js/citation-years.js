@@ -486,13 +486,8 @@ if (
 ) {
 
   console.log(
-    "HAS BRADSHAW:",
-    lowered.includes("bradshaw")
-  );
-
-  console.log(
-    "BRADSHAW ENTRIES:",
-    bibliography.authors["bradshaw"]
+    "LOWERED TAIL:",
+    lowered.slice(-2000)
   );
 }
 
