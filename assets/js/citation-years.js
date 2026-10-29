@@ -1067,22 +1067,76 @@ Object.values(
   bibliography.entries
 ).forEach(entry => {
 
-  entry.node.innerHTML =
-    entry.node.innerHTML.replace(
-      /(https?:\/\/[^\s<]+)/g,
-      (match) => {
-
-        const url =
-          match.replace(/\.$/, "");
-
-        const punctuation =
-          match.endsWith(".")
-            ? "."
-            : "";
-
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${punctuation}`;
-      }
+  const walker =
+    document.createTreeWalker(
+      entry.node,
+      NodeFilter.SHOW_TEXT
     );
+
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    textNodes.push(
+      walker.currentNode
+    );
+  }
+
+  textNodes.forEach(node => {
+
+    const match =
+      node.textContent.match(
+        /(https?:\/\/\S+)/
+      );
+
+    if (!match) {
+      return;
+    }
+
+    const url =
+      match[1].replace(
+        /\.$/,
+        ""
+      );
+
+    const fragment =
+      document.createDocumentFragment();
+
+    const before =
+      node.textContent.replace(
+        match[1],
+        ""
+      );
+
+    if (before) {
+      fragment.appendChild(
+        document.createTextNode(
+          before
+        )
+      );
+    }
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.href = url;
+    link.target = "_blank";
+    link.rel =
+      "noopener noreferrer";
+
+    link.textContent =
+      url;
+
+    fragment.appendChild(
+      link
+    );
+
+    node.parentNode.replaceChild(
+      fragment,
+      node
+    );
+  });
 });
 
 processCitations(
