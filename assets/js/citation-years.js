@@ -784,9 +784,15 @@ console.log(
               const rest =
                 authorMatch[3];
 
+              const normalizedAuthor =
+                author.replace(
+                  /\s+et\s+al\.?$/i,
+                  ""
+                );
+
               const key =
                 slugify(
-                  author
+                  normalizedAuthor
                 ) +
                 "-" +
                 year;
