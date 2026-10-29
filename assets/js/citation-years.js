@@ -564,12 +564,20 @@ function processCitations(
       continue;
     }
 
+    const localBlock =
+      parent.closest(
+        "p,li,blockquote,div"
+      );
+
+    const localText =
+      localBlock?.innerText || "";
+
     const contextRoot =
       parent.closest(
         "section,article,main"
       ) || document.body;
 
-    const blockText =
+    const broadText =
       contextRoot.innerText || "";
 
 
@@ -645,25 +653,61 @@ function processCitations(
                 const rest =
                   bareMatch[2];
 
-                const citationPos =
-                  blockText.indexOf(
-                    fullMatch
+                const nodeText =
+                node.textContent;
+
+                /* try local context first */
+
+                let citationPos =
+                  localText.indexOf(
+                    nodeText
                   );
 
-                const precedingText =
+                let precedingText =
                   citationPos >= 0
-                    ? blockText.slice(
+                    ? localText.slice(
                         0,
-                        citationPos
+                        citationPos +
+                        nodeText.indexOf(
+                          fullMatch
+                        )
                       )
-                    : blockText;
+                    : localText;
 
-                const inferred =
+                let inferred =
                   inferAuthor(
                     precedingText,
                     year,
                     bibliography
                   );
+
+                /* fall back to broader context */
+
+                if (!inferred) {
+
+                  citationPos =
+                    broadText.indexOf(
+                      nodeText
+                    );
+
+                  precedingText =
+                    citationPos >= 0
+                      ? broadText.slice(
+                          0,
+                          citationPos +
+                          nodeText.indexOf(
+                            fullMatch
+                          )
+                        )
+                      : broadText;
+
+                  inferred =
+                    inferAuthor(
+                      precedingText,
+                      year,
+                      bibliography
+                    );
+                }
 
                 if (
                   inferred &&
@@ -812,28 +856,58 @@ function processCitations(
                 const nodeText =
                 node.textContent;
 
-                const citationPos =
-                  blockText.indexOf(
+                /* try local context first */
+
+                let citationPos =
+                  localText.indexOf(
                     nodeText
                   );
 
-                const precedingText =
+                let precedingText =
                   citationPos >= 0
-                    ? blockText.slice(
+                    ? localText.slice(
                         0,
                         citationPos +
                         nodeText.indexOf(
                           fullMatch
                         )
                       )
-                    : blockText;
+                    : localText;
 
-                const inferred =
+                let inferred =
                   inferAuthor(
                     precedingText,
                     year,
                     bibliography
                   );
+
+                /* fall back to broader context */
+
+                if (!inferred) {
+
+                  citationPos =
+                    broadText.indexOf(
+                      nodeText
+                    );
+
+                  precedingText =
+                    citationPos >= 0
+                      ? broadText.slice(
+                          0,
+                          citationPos +
+                          nodeText.indexOf(
+                            fullMatch
+                          )
+                        )
+                      : broadText;
+
+                  inferred =
+                    inferAuthor(
+                      precedingText,
+                      year,
+                      bibliography
+                    );
+                }
 
 if (year === "2026") {
 
