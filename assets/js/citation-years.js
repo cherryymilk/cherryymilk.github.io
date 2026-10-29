@@ -679,6 +679,12 @@ function processCitations(
                       )
                     : blockText;
 
+if (year === "2026") {
+  console.log(
+    precedingText.slice(-500)
+  );
+}
+
                 const inferred =
                   inferAuthor(
                     precedingText,
