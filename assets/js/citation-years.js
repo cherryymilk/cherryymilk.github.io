@@ -1061,6 +1061,19 @@ node.innerHTML = html;
 const bibliography =
   buildBibliography();
 
+/* maik urls clickable */
+
+Object.values(
+  bibliography.entries
+).forEach(entry => {
+
+  entry.node.innerHTML =
+    entry.node.innerHTML.replace(
+      /(https?:\/\/[^\s<]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+});
+
 processCitations(
   bibliography
 );
