@@ -551,28 +551,17 @@ function processCitations(
   bibliography
 ) {
 
-  const walker =
-    document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT
-    );
-
-  const nodes = [];
-
-  while (
-    walker.nextNode()
-  ) {
-    nodes.push(
-      walker.currentNode
-    );
-  }
+  const nodes = [
+    ...document.querySelectorAll(
+      "p,li,blockquote"
+    )
+  ];
 
   for (
     const node of nodes
   ) {
 
-    const parent =
-      node.parentNode;
+    const parent = node;
 
     if (
       parent &&
@@ -585,7 +574,7 @@ function processCitations(
     }
 
     const text =
-      node.textContent;
+      node.innerHTML;
 
     if (
       !text.includes("(") &&
@@ -1045,18 +1034,8 @@ console.log(
       continue;
     }
 
-    const span =
-      document.createElement(
-        "span"
-      );
+node.innerHTML = html;
 
-    span.innerHTML =
-      html;
-
-    parent.replaceChild(
-      span,
-      node
-    );
   }
 }
 
