@@ -16,7 +16,7 @@ sup a.footnote {
 }    
 
 sup a.footnote:hover {
-    text-decoration: underline !important;
+    text-decoration: none !important;
     opacity: 1 !important;
     border-bottom-color: #d2603a !important;
 }    
@@ -28,7 +28,7 @@ a.citation-link {
 }
 
 a.citation-link:hover {
-    text-decoration: underline;
+    text-decoration: none;
     opacity: 1 !important;
     border-bottom-color: #d2603a !important;
 }
