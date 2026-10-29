@@ -679,12 +679,6 @@ function processCitations(
                       )
                     : blockText;
 
-if (year === "2026") {
-  console.log(
-    precedingText.slice(-500)
-  );
-}
-
                 const inferred =
                   inferAuthor(
                     precedingText,
@@ -848,6 +842,14 @@ if (year === "2026") {
                         citationPos
                       )
                     : blockText;
+                    
+                if (year === "2026") {
+
+                  console.log(
+                    "PAREN PRECEDING:",
+                    precedingText.slice(-500)
+                  );
+                }
 
                 const inferred =
                   inferAuthor(
@@ -855,6 +857,14 @@ if (year === "2026") {
                     year,
                     bibliography
                   );
+
+                if (year === "2026") {
+
+                  console.log(
+                    "PAREN RESULT:",
+                    inferred
+                  );
+                }
 
                 if (
                   inferred &&
