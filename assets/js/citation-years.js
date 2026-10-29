@@ -809,16 +809,22 @@ function processCitations(
                 const rest =
                   bareMatch[2];
 
+                const nodeText =
+                node.textContent;
+
                 const citationPos =
                   blockText.indexOf(
-                    fullMatch
+                    nodeText
                   );
 
                 const precedingText =
                   citationPos >= 0
                     ? blockText.slice(
                         0,
-                        citationPos
+                        citationPos +
+                        nodeText.indexOf(
+                          fullMatch
+                        )
                       )
                     : blockText;
 
