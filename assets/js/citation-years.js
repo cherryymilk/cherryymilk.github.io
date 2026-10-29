@@ -1092,11 +1092,13 @@ Object.values(
       return;
     }
 
+    const hasPeriod =
+      match[1].endsWith(".");
+
     const url =
-      match[1].replace(
-        /\.$/,
-        ""
-      );
+      hasPeriod
+        ? match[1].slice(0, -1)
+        : match[1];
 
     const fragment =
       document.createDocumentFragment();
@@ -1132,10 +1134,17 @@ Object.values(
       link
     );
 
+    if (hasPeriod) {
+      fragment.appendChild(
+        document.createTextNode(".")
+      );
+    }
+
     node.parentNode.replaceChild(
       fragment,
       node
     );
+    
   });
 });
 
