@@ -572,9 +572,15 @@ function processCitations(
     const localText =
       localBlock?.innerText || "";
 
-    const previousBlock =
-      localBlock?.previousElementSibling;
+    const blockquote =
+      parent.closest(
+        "blockquote"
+      );
 
+    const previousBlock =
+      blockquote
+        ? blockquote.previousElementSibling
+        : localBlock?.previousElementSibling;
     const broadText =
       (
         (previousBlock?.innerText || "")
