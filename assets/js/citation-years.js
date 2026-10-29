@@ -499,6 +499,15 @@ const yearMatches =
           a.year === year
       );
 
+if (match) {
+  console.log(
+    "AUTHOR CANDIDATE:",
+    surname,
+    year,
+    match.target
+  );
+}
+
     if (!match) {
       continue;
     }
