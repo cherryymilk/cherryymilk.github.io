@@ -588,6 +588,10 @@ function processCitations(
         + localText
       );
 
+console.log(
+  "BROAD TEXT:",
+  broadText
+);      
 
     let changed =
       false;
