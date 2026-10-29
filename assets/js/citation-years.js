@@ -876,68 +876,76 @@ console.log(
                 const nodeText =
                 node.textContent;
 
-                /* try local context first */
+/* try local context first */
 
-                let citationPos =
-                  localText.indexOf(
-                    nodeText
-                  );
+let citationPos =
+  localText.indexOf(
+    nodeText
+  );
 
-                let precedingText =
-                  citationPos >= 0
-                    ? localText.slice(
-                        0,
-                        citationPos +
-                        nodeText.indexOf(
-                          fullMatch
-                        )
-                      )
-                    : localText;
+let precedingText =
+  citationPos >= 0
+    ? localText.slice(
+        0,
+        citationPos +
+        nodeText.indexOf(
+          fullMatch
+        )
+      )
+    : localText;
 
-                let inferred =
-                  inferAuthor(
-                    precedingText,
-                    year,
-                    bibliography
-                  );
+const localInferred =
+  inferAuthor(
+    precedingText,
+    year,
+    bibliography
+  );
 
-                /* fall back to broader context */
+console.log(
+  "LOCAL:",
+  year,
+  localInferred
+);
 
-                const localInferred =
-                  inferAuthor(
-                    precedingText,
-                    year,
-                    bibliography
-                  );
+let inferred =
+  localInferred;
 
-                if (localInferred) {
-                  inferred = localInferred;
-                } else {
-                  // try broad context
+/* fall back to broader context */
 
-                  citationPos =
-                    broadText.indexOf(
-                      nodeText
-                    );
+if (!inferred) {
 
-                  precedingText =
-                    citationPos >= 0
-                      ? broadText.slice(
-                          0,
-                          citationPos +
-                          nodeText.indexOf(
-                            fullMatch
-                          )
-                        )
-                      : broadText;
+  citationPos =
+    broadText.indexOf(
+      nodeText
+    );
 
-                  inferred =
-                    inferAuthor(
-                      precedingText,
-                      year,
-                      bibliography
-                    );
-                  }
+  precedingText =
+    citationPos >= 0
+      ? broadText.slice(
+          0,
+          citationPos +
+          nodeText.indexOf(
+            fullMatch
+          )
+        )
+      : broadText;
+
+  const broadInferred =
+    inferAuthor(
+      precedingText,
+      year,
+      bibliography
+    );
+
+  console.log(
+    "BROAD:",
+    year,
+    broadInferred
+  );
+
+  inferred =
+    broadInferred;
+}
 
 
 
