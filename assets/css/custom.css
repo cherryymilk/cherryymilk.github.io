@@ -387,21 +387,20 @@ body h4 {
 }
 
 #sidebar .profile-wrapper #avatar {
-  width: 6.5rem !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: none !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+    width: 100px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 #sidebar .profile-wrapper #avatar img {
-  width: 100% !important;
-  height: auto !important;
-  border-radius: 0 !important;
-  object-fit: contain;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    padding: 0;
 }
 
 #sidebar .site-title,
