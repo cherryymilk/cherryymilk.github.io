@@ -401,11 +401,8 @@ body h4 {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  transition: transform 0.4s ease;
 }
-#sidebar .profile-wrapper #avatar:hover {
-  transform: rotate(-3deg) scale(1.03);
-}
+
 #sidebar .profile-wrapper #avatar img {
   width: 100% !important;
   height: auto !important;
@@ -456,7 +453,6 @@ body h4 {
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0;
-  transition: color 0.2s ease, background 0.2s ease;
 }
 #sidebar .nav-item .nav-link i {
   width: 1.1rem;
@@ -508,8 +504,8 @@ body h4 {
   background: transparent !important;
   box-shadow: none !important;
   color: var(--lb-muted);
-  transition: color 0.2s ease;
 }
+
 #sidebar .sidebar-bottom a:hover,
 #sidebar .sidebar-bottom .btn:hover {
   color: var(--lb-accent);
@@ -559,7 +555,6 @@ body h4 {
   font-size: 1.4rem;
   line-height: 1.25;
   color: var(--lb-ink);
-  transition: color 0.2s ease;
 }
 #post-list .card-text {
   color: var(--lb-muted);
