@@ -467,7 +467,7 @@ body h4 {
 
 #sidebar .nav-item .nav-link:hover {
   color: #353535 !important;
-  background: transparent;
+  background: transparent !important;
 }
 #sidebar .nav-item.active .nav-link,
 #sidebar .nav-item .nav-link.active {
