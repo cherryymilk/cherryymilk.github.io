@@ -679,13 +679,6 @@ body h4 {
   color: var(--lb-ink);
 }
 
-.content blockquote {
-  border-left: 2px solid var(--lb-accent);
-  color: var(--lb-muted);
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-style: italic;
-}
-
 .content img {
   border-radius: 0.65rem;
 }
