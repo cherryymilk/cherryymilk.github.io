@@ -177,18 +177,12 @@ html[data-bs-theme="light"] #sidebar #avatar img {
     color: #585858;
 }
 
-html[data-bs-theme="dark"] .post-tag, html[data-bs-theme="dark"] .tag {
-    border-color: #757575 !important;
-}
-
-html[data-bs-theme="light"] .post-tag, html[data-bs-theme="light"] .tag {
-    border-color: #e9ecef !important;
-}
-
 .post-tag, .tag {
     background: transparent;
-    color: #757575;
+    color: var(--lb-muted) !important;
     box-shadow: none !important;
+    border: 1px solid;
+    border-color: var(--main-border-color) !important;
 }
 
 .post-tag:hover, .tag:hover {
@@ -472,8 +466,8 @@ body h4 {
 }
 
 #sidebar .nav-item .nav-link:hover {
-  color: var(--lb-ink) !important;
-  background: var(--lb-active-bg);
+  color: #353535 !important;
+  background: transparent;
 }
 #sidebar .nav-item.active .nav-link,
 #sidebar .nav-item .nav-link.active {
@@ -643,12 +637,8 @@ body h4 {
 }
 
 .post-tag {
-  background: var(--lb-chip) !important;
-  border: 0 !important;
-  border-radius: 0.4rem;
-  color: var(--lb-muted) !important;
-  font-size: 0.78rem;
   box-shadow: none;
+
 }
 .post-tag:hover {
   color: var(--lb-ink) !important;
