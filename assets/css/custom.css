@@ -480,10 +480,14 @@ html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353
 
 #sidebar .sidebar-bottom {
   justify-content: center;
-  gap: 0.15rem;
-  padding: 0 1.75rem 1.5rem;
+  gap: 2.15rem;
+  padding: 0.7rem 0 0.7rem 0;
   margin: 0;
   border: 0;
+}
+
+#sidebar .sidebar-bottom #mode-toggle, #sidebar .sidebar-bottom>a {
+    margin-bottom: 0 !important;
 }
 
 #sidebar .sidebar-bottom>a:not(:last-child) {
@@ -719,4 +723,14 @@ footer {
   :root {
     --lb-sidebar-w: 330px;
   }
+}
+
+a[aria-label="github"], a[aria-label="rss"] {
+    display: none !important;
+}
+
+#sidebar .sidebar-bottom #mode-toggle:hover, #sidebar .sidebar-bottom>a:hover, #sidebar .site-title:hover {color:#d2603a;}
+
+.fa-x-twitter {
+    --fa: "\f08c";
 }
