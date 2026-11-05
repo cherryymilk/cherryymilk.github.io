@@ -461,8 +461,10 @@ body h4 {
   text-transform: uppercase;
 }
 
+html:root[data-bs-theme='dark'] #sidebar .nav-item .nav-link:hover {color: #bcbcbc !important;}
+html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353535 !important;}
+
 #sidebar .nav-item .nav-link:hover {
-  color: #353535 !important;
   background: transparent !important;
 }
 #sidebar .nav-item.active .nav-link,
