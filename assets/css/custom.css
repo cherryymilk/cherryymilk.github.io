@@ -499,7 +499,7 @@ html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-  color: var(--lb-muted);
+  color: var(--sidebar-btn-color);
 }
 
 #sidebar .sidebar-bottom a:hover,
