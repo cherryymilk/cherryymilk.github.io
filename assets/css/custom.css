@@ -642,10 +642,6 @@ html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353
   box-shadow: none;
 
 }
-.post-tag:hover {
-  color: var(--lb-ink) !important;
-  background: var(--lb-active-bg) !important;
-}
 
 #search {
   background: var(--lb-chip) !important;
@@ -737,4 +733,10 @@ a[aria-label="github"], a[aria-label="rss"] {
 
 .post-tail-bottom {
     display: none !important;
+}
+
+.post-tail-wrapper {
+    margin-top: 3rem;
+    border-bottom: 1px double var(--main-border-color);
+    padding-bottom: 1rem;
 }
