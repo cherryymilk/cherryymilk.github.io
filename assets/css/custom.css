@@ -643,6 +643,11 @@ html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353
 
 }
 
+.post-tag:hover {
+  color: var(--link-color) !important;
+  background: transparent !important;
+}
+
 #search {
   background: var(--lb-chip) !important;
   border: 0 !important;
