@@ -734,3 +734,7 @@ a[aria-label="github"], a[aria-label="rss"] {
 .fa-x-twitter {
     --fa: "\f08c";
 }
+
+.post-tail-bottom {
+    display: none !important;
+}
