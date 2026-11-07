@@ -745,3 +745,12 @@ a[aria-label="github"], a[aria-label="rss"] {
     border-bottom: 1px double var(--main-border-color);
     padding-bottom: 1rem;
 }
+
+footer span {
+    display: none;
+}
+
+a.nav-link[href="/archives/"], 
+a.nav-link[href="/categories/"], 
+a.nav-link[href="/tags/"] {
+    display:none !important;}
