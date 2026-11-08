@@ -464,7 +464,7 @@ body h4 {
 html:root[data-bs-theme='dark'] #sidebar .nav-item .nav-link:hover {color: #bcbcbc !important;}
 html:root[data-bs-theme='light'] #sidebar .nav-item .nav-link:hover {color: #353535 !important;}
 
-#sidebar .nav-item .nav-link:hover {
+#sidebar .nav-item:not(.active) .nav-link:hover {
   background: transparent !important;
 }
 #sidebar .nav-item.active .nav-link,
