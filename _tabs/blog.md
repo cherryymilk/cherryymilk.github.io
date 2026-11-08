@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Blog
 icon: fa-solid fa-file-lines
 order: 1
