@@ -7,7 +7,12 @@ order: 1
 
 <div class="row flex-grow-1">
   <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4">
-    <div id="post-list" class="flex-grow-1 px-xl-1">
+    <!-- Native Page Title Header Formatting -->
+    <header class="px-xl-1">
+      <h1 class="dynamic-title">Blog</h1>
+    </header>
+
+    <div id="post-list" class="flex-grow-1 px-xl-1 mt-4">
       {% for post in site.posts %}
         <article class="card-wrapper card">
           <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
