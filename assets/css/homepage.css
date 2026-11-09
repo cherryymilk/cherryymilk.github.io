@@ -5,3 +5,17 @@ aside#panel-wrapper {
 body main {
     width: 100% !important;
 }
+
+p#bio {
+    width: calc(100% - 400px);
+    display: inline-block;
+}
+
+img#biopic {
+    border-radius: 0;
+}
+
+a:has(#biopic) {
+    float: right;
+    width: 300px;
+}
