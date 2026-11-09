@@ -24,7 +24,13 @@ order: 1
           <div class="card-body d-flex flex-column">
             <h1 class="card-title my-2 mt-md-0">{{ post.title }}</h1>
             <div class="card-text content mt-0 mb-3">
-              <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+              <p>
+                {% if post.description %}
+                  {{ post.description | strip_html | truncatewords: 30 }}
+                {% else %}
+                  {{ post.excerpt | strip_html | truncatewords: 30 }}
+                {% endif %}
+              </p>
             </div>
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto text-muted">
