@@ -754,3 +754,5 @@ a.nav-link[href="/archives/"],
 a.nav-link[href="/categories/"], 
 a.nav-link[href="/tags/"] {
     display:none !important;}
+
+header .post-desc {display: none !important;}
