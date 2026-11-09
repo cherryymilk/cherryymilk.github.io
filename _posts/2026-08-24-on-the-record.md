@@ -3,6 +3,7 @@ title: "On the Record: Diegetic and Mimetic Narrativity in The Magnus Archives"
 categories: [essay, literary analysis]
 tags: [podcasts]     # TAG names should always be lowercase
 image: /assets/img/magnus-archives.png
+description: "Podcast horror has enjoyed unprecedented popularity in recent years. In 2017, Danielle Hancock and Leslie McMurtry observed that, following the international success of Joseph Fink and Jeffrey Cranor’s *Welcome to Night Vale* (2012–present), the genre increasingly saw “wide circulation, critical acclaim and popular appeal” (2017, 2)."
 ---
 
 ### Introduction

@@ -3,6 +3,7 @@ title: "Starting Over or Beginning Anew? — Breaking the Loop and the Politics 
 categories: [essay, literary analysis]
 tags: [video games, films, loops]     # TAG names should always be lowercase
 image: /assets/img/exit-8.png
+description: "In early 2025, residents of Kōtō City in downtown Tokyo found their neighborhood suddenly awash with tourists. These visitors flocked to a local subway station, Kiyosumi-Shirakawa Station, drawn by the hunt for ‘Exit 8’—an exit that, as it turns out, does not actually exist at the station, which counts only five accessways (Shueisha Online Editorial News Team 2025)."
 ---
 
 ### Introduction
