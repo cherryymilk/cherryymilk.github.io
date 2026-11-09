@@ -1,5 +1,6 @@
 ---
 # the default layout is 'page'
+title: Contact
 icon: fa-solid fa-location-dot
 order: 3
 ---
