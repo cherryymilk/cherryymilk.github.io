@@ -6,10 +6,6 @@ icon: fa-solid fa-folder-open
 order: 2
 ---
 
-<p>Lorem ipsum.</p>
-
-[One or two sentences introducing the work on this page.]
-
 {::nomarkdown}
 <div class="projects">
 {% for p in site.data.projects -%}
