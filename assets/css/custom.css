@@ -760,3 +760,118 @@ header .post-desc {display: none !important;}
 h1.dynamic-title, #breadcrumb {
     text-transform: capitalize;
 }
+
+
+
+.projects {
+  margin-top: 1.75rem;
+  text-align: left;
+}
+ 
+.projects .proj-row {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--lb-line);
+}
+.projects .proj-row:last-child {
+  border-bottom: 0;
+}
+ 
+.content .projects .proj {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1.5rem 1.25rem;
+  margin: 0 -1.25rem;
+  border-radius: 0.75rem;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+.content .projects a.proj {
+  border-bottom: 0 !important;
+}
+.content .projects a.proj:hover {
+  color: inherit;
+  border-bottom: 0 !important;
+  background: var(--lb-chip);
+}
+ 
+.projects .proj-img {
+  flex: none;
+  width: 13rem;
+  aspect-ratio: 40 / 21;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--lb-chip);
+}
+.projects .proj-img-inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+.projects a.proj:hover .proj-img-inner {
+  transform: scale(1.05);
+}
+ 
+
+.projects .proj-img--none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.projects .proj-img--none::after {
+  content: 'no image';
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-style: italic;
+  font-size: 0.875rem;
+  color: var(--lb-muted);
+}
+ 
+.projects .proj-text {
+  flex: 1;
+  min-width: 0;
+}
+.content .projects .proj-title {
+  margin: 0 !important;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 500;
+  font-size: 1.3rem !important;
+  line-height: 1.25;
+  color: var(--lb-ink);
+  transition: color 0.2s ease;
+}
+.content .projects .proj-desc {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--lb-muted);
+}
+.projects .proj-go {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--lb-muted);
+  transition: color 0.2s ease;
+}
+ 
+.projects a.proj:hover .proj-title,
+.projects a.proj:hover .proj-go {
+  color: var(--lb-accent);
+}
+ 
+/* Phones */
+@media (max-width: 575.98px) {
+  .content .projects .proj {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem 0.75rem;
+    margin: 0 -0.75rem;
+  }
+  .projects .proj-img {
+    width: 100%;
+  }
+}
