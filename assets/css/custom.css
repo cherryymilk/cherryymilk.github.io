@@ -756,3 +756,7 @@ a.nav-link[href="/tags/"] {
     display:none !important;}
 
 header .post-desc {display: none !important;}
+
+h1.dynamic-title, #breadcrumb {
+    text-transform: capitalize;
+}
