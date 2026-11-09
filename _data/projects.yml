@@ -1,19 +1,8 @@
-- title: "[Project title one]"
-  description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/1200x630.jpg
-  url: https://example.com/project-one
+- title: "Among Monsters: Focalization, Proximity, and Difference in the New Weird"
+  description: "How does contemporary weird fiction draw us close to monstrous experience? Proposed doctoral project, currently in development."
+  image: /assets/img/among-monsters.jpg
 
-- title: "[Project title two, which can run to two lines if it needs to]"
-  description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/1200x630.jpg
-  url: https://example.com/project-two
-
-- title: "[Project title three]"
-  description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/1200x630.jpg
-  url: https://example.com/project-three
-
-- title: "[Project title four]"
-  description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/1200x630.jpg
-  url: https://example.com/project-four
+- title: "obskyr"
+  description: "obskyr is an open forum for rocking the boat, walking on thin ice, and talking in circles."
+  image: /assets/img/obskyr.jpg
+  url: https://obskyr.neocities.org/
