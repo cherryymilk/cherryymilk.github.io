@@ -1,19 +1,19 @@
 - title: "[Project title one]"
   description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/projects/1200x630.jpg
+  image: /assets/img/1200x630.jpg
   url: https://example.com/project-one
 
 - title: "[Project title two, which can run to two lines if it needs to]"
   description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/projects/1200x630.jpg
+  image: /assets/img/1200x630.jpg
   url: https://example.com/project-two
 
 - title: "[Project title three]"
   description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/projects/1200x630.jpg
+  image: /assets/img/1200x630.jpg
   url: https://example.com/project-three
 
 - title: "[Project title four]"
   description: "[Two sentences on what the project is, what you did, and why it matters. Keep it short enough to scan.]"
-  image: /assets/img/projects/1200x630.jpg
+  image: /assets/img/1200x630.jpg
   url: https://example.com/project-four

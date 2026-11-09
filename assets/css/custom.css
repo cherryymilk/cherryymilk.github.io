@@ -782,7 +782,6 @@ h1.dynamic-title, #breadcrumb {
   gap: 1.75rem;
   padding: 1.5rem 1.25rem;
   margin: 0 -1.25rem;
-  border-radius: 0.75rem;
   color: inherit;
   transition: background 0.2s ease;
 }
@@ -793,7 +792,6 @@ h1.dynamic-title, #breadcrumb {
 .content .projects a.proj:hover {
   color: inherit;
   border-bottom: 0 !important;
-  background: var(--lb-chip);
 }
  
 .projects .proj-img {
@@ -809,7 +807,6 @@ h1.dynamic-title, #breadcrumb {
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: transform 0.4s ease;
 }
 .projects a.proj:hover .proj-img-inner {
   transform: scale(1.05);
@@ -840,7 +837,6 @@ h1.dynamic-title, #breadcrumb {
   font-size: 1.3rem !important;
   line-height: 1.25;
   color: var(--lb-ink);
-  transition: color 0.2s ease;
 }
 .content .projects .proj-desc {
   margin: 0.5rem 0 0;
@@ -854,7 +850,6 @@ h1.dynamic-title, #breadcrumb {
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--lb-muted);
-  transition: color 0.2s ease;
 }
  
 .projects a.proj:hover .proj-title,
@@ -874,4 +869,8 @@ h1.dynamic-title, #breadcrumb {
   .projects .proj-img {
     width: 100%;
   }
+}
+
+html .proj-row a.proj {
+    border-bottom: none !important;
 }
