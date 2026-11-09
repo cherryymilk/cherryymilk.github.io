@@ -1,6 +1,6 @@
 ---
 # the default layout is 'page'
-icon: fa-solid fa-user
+icon: fa-solid fa-location-dot
 order: 3
 ---
 

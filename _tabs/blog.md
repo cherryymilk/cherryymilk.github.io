@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Blog
-icon: fa-solid fa-file-lines
+icon: fa-solid fa-pen-nib
 order: 1
 ---
 
