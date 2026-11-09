@@ -2,7 +2,7 @@ aside#panel-wrapper {
     display: none !important;
 }
 
-body main, .row:has(footer) {
+body main, #tail-wrapper:has(footer) {
     width: 100% !important;
 }
 
