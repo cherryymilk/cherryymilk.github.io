@@ -19,8 +19,12 @@ For questions about my writing, collaborations, or anything weird, email is the 
 <a class="contact-value" href="https://www.linkedin.com/in/lyn-ballegeer" target="_blank" rel="noopener">linkedin.com/in/lyn-ballegeer <span class="contact-arrow" aria-hidden="true">↗</span></a>
 </li>
 <li>
-<span class="contact-label">Instagram</span>
-<a class="contact-value" href="https://www.instagram.com/lynballegeer" target="_blank" rel="noopener">instagram.com/lynballegeer <span class="contact-arrow" aria-hidden="true">↗</span></a>
+<span class="contact-label">ORCID</span>
+<a class="contact-value" href="https://orcid.org/0009-0005-2038-1220" target="_blank" rel="noopener">orcid.org/0009-0005-2038-1220 <span class="contact-arrow" aria-hidden="true">↗</span></a>
+</li>
+<li>
+<span class="contact-label">ResearchGate</span>
+<a class="contact-value" href="https://www.researchgate.net/profile/lyn-ballegeer" target="_blank" rel="noopener">researchgate.net/profile/lyn-ballegeer <span class="contact-arrow" aria-hidden="true">↗</span></a>
 </li>
 <li>
 <span class="contact-label">Website</span>
