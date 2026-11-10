@@ -652,6 +652,7 @@ html:root[data-bs-theme='light'] #sidebar .nav-item:not(.active) .nav-link:hover
   background: var(--lb-chip) !important;
   border: 0 !important;
   border-radius: 999px;
+  margin-right: 0 !important;
 }
 #search-input {
   background: transparent !important;
@@ -873,4 +874,11 @@ h1.dynamic-title, #breadcrumb {
 
 html .proj-row a.proj {
     border-bottom: none !important;
+}
+
+@media (min-width: 992px) {
+    .px-lg-3 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
 }
