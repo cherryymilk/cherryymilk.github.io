@@ -16,8 +16,7 @@ For questions about my writing, collaborations, or anything weird, email is the 
 </li>
 <li>
 <span class="contact-label">LinkedIn</span>
-<!-- replace the address in href and in the text -->
-<a class="contact-value" href="https://www.linkedin.com/in/your-name" target="_blank" rel="noopener">linkedin.com/in/lyn-ballegeer <span class="contact-arrow" aria-hidden="true">↗</span></a>
+<a class="contact-value" href="https://www.linkedin.com/in/lyn-ballegeer" target="_blank" rel="noopener">linkedin.com/in/lyn-ballegeer <span class="contact-arrow" aria-hidden="true">↗</span></a>
 </li>
 <li>
 <span class="contact-label">Instagram</span>
